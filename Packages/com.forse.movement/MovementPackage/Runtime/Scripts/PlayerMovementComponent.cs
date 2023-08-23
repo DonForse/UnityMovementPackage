@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using Features.Game.Animations;
-using Features.Game.Movement;
 using UnityEngine;
 
-namespace UnityPackages.MovementPackage.Scripts
+namespace MovementPackage.Runtime.Scripts
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(PlayerMovementCollision))]

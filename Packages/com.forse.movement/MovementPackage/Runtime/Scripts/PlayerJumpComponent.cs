@@ -1,9 +1,8 @@
 using System.Collections;
-using Features.Game.Movement;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace UnityPackages.MovementPackage.Scripts
+namespace MovementPackage.Runtime.Scripts
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerJumpComponent : MonoBehaviour, IMovementComponent

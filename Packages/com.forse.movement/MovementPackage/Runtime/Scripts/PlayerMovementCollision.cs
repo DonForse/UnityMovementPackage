@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Features.Game.Movement;
 using UnityEngine;
 
-namespace UnityPackages.MovementPackage.Scripts
+namespace MovementPackage.Runtime.Scripts
 {
     public class PlayerMovementCollision : MonoBehaviour, IMovementComponent
     {

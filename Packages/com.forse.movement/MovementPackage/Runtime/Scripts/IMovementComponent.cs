@@ -1,4 +1,4 @@
-namespace UnityPackages.MovementPackage.Scripts
+namespace MovementPackage.Runtime.Scripts
 {
     public interface IMovementComponent
     {

@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Features.Game.Animations
+namespace MovementPackage.Runtime.Scripts
 {
     public class PlayerAnimatorManager : MonoBehaviour
     {

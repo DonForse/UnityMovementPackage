@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityPackages.MovementPackage.Scripts;
 
-namespace Features.Game.Movement
+namespace MovementPackage.Runtime.Scripts
 {
     public class PlayerGravityComponent : MonoBehaviour, IMovementComponent
     {
