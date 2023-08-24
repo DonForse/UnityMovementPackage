@@ -111,7 +111,7 @@ namespace MovementPackage.Runtime.Scripts
                 return;
 
             _playerMovementData.gravityMultiplier = 1f;
-            _playerMovementData.playerVerticalSpeed += Mathf.Sqrt(jumpHeight * Time.fixedDeltaTime);
+            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(jumpHeight * Time.fixedDeltaTime);
             cancelCoyote = true;
             coyoteGroundedPlayer = false;
             Jumped.Invoke();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts
 {
@@ -13,7 +14,7 @@ namespace MovementPackage.Runtime.Scripts
         float collisionRadius = 0.25f;
 
         [SerializeField] private bool groundDetection = true;
-        [SerializeField] private Vector3 bottomOffset = Vector3.down;
+        [SerializeField] private Vector3 bottomOffset =  new Vector3(0f, -1f, 0);
         [SerializeField] private bool xAxisDetection= true;
         [SerializeField] private Vector3 rightOffset = new Vector3(1f, 0.5f, 0);
         [SerializeField] private Vector3 leftOffset = new Vector3(-1f, 0.5f, 0);
@@ -21,7 +22,8 @@ namespace MovementPackage.Runtime.Scripts
         [SerializeField] private Vector3 forwardOffset = new Vector3(0, 0.5f, 1f);
         [SerializeField] private Vector3 backOffset = new Vector3(0, 0.5f, -1f);
 
-        [Space] [Header("Detection")] [SerializeField]
+        [Space] [Header("Detection")] 
+        [SerializeField]
         private float detectionCollisionRadius = 0.5f;
 
         [SerializeField] private bool closeWallDetection= false;
@@ -29,6 +31,8 @@ namespace MovementPackage.Runtime.Scripts
         [SerializeField] private Vector3 wallLeftOffset = new Vector3(-1.5f, 0.5f, 0);
         [SerializeField] private Vector3 wallForwardOffset = new Vector3(0, 0.5f, 1.5f);
         [SerializeField] private Vector3 wallBackOffset = new Vector3(0, 0.5f, -1.5f);
+        [SerializeField] private bool closeGroundDetection= false;
+        [FormerlySerializedAs("groundOffset")] [SerializeField] private Vector3 groundBottomOffset =  new Vector3(0f, -1.5f, 0);
         private PlayerMovementData _playerMovementData;
         private List<Action> _actions;
 
@@ -56,6 +60,11 @@ namespace MovementPackage.Runtime.Scripts
             {
                 _actions.Add(DetectCloseWalls);
             }
+
+            if (closeGroundDetection)
+            {
+                _actions.Add(DetectCloseGround);
+            }
         }
 
         public void ProcessFixedUpdate()
@@ -63,28 +72,6 @@ namespace MovementPackage.Runtime.Scripts
             foreach (var action in _actions)
             {
                 action();
-            }
-        }
-
-        private void DetectCloseWalls()
-        {
-            if (xAxisDetection)
-            {
-                _playerMovementData.closeRightWall = Physics
-                    .OverlapSphere(transform.position + wallRightOffset, detectionCollisionRadius, groundLayer)
-                    .Any();
-                _playerMovementData.closeLeftWall = Physics
-                    .OverlapSphere(transform.position + wallLeftOffset, detectionCollisionRadius, groundLayer)
-                    .Any();
-            }
-            if (zAxisDetection)
-            {
-                _playerMovementData.closeForwardWall = Physics
-                    .OverlapSphere(transform.position + wallForwardOffset, detectionCollisionRadius, groundLayer)
-                    .Any();
-                _playerMovementData.closeBackWall = Physics
-                    .OverlapSphere(transform.position + wallBackOffset, detectionCollisionRadius, groundLayer)
-                    .Any();
             }
         }
 
@@ -112,6 +99,34 @@ namespace MovementPackage.Runtime.Scripts
                 Physics.OverlapSphere(transform.position + bottomOffset, collisionRadius, groundLayer).Any();
         }
 
+        private void DetectCloseGround()
+        {
+            _playerMovementData.closeGround =
+                Physics.OverlapSphere(transform.position + groundBottomOffset, collisionRadius, groundLayer).Any();
+        }
+
+        private void DetectCloseWalls()
+        {
+            if (xAxisDetection)
+            {
+                _playerMovementData.closeRightWall = Physics
+                    .OverlapSphere(transform.position + wallRightOffset, detectionCollisionRadius, groundLayer)
+                    .Any();
+                _playerMovementData.closeLeftWall = Physics
+                    .OverlapSphere(transform.position + wallLeftOffset, detectionCollisionRadius, groundLayer)
+                    .Any();
+            }
+            if (zAxisDetection)
+            {
+                _playerMovementData.closeForwardWall = Physics
+                    .OverlapSphere(transform.position + wallForwardOffset, detectionCollisionRadius, groundLayer)
+                    .Any();
+                _playerMovementData.closeBackWall = Physics
+                    .OverlapSphere(transform.position + wallBackOffset, detectionCollisionRadius, groundLayer)
+                    .Any();
+            }
+        }
+
         void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
@@ -130,6 +145,9 @@ namespace MovementPackage.Runtime.Scripts
             }
 
             Gizmos.color = Color.cyan;
+            if (closeGroundDetection)
+                Gizmos.DrawWireSphere(transform.position + groundBottomOffset, detectionCollisionRadius);
+
             if (!closeWallDetection) return;
             if (xAxisDetection)
             {
@@ -142,6 +160,8 @@ namespace MovementPackage.Runtime.Scripts
                 Gizmos.DrawWireSphere(transform.position + wallForwardOffset, detectionCollisionRadius);
                 Gizmos.DrawWireSphere(transform.position + wallBackOffset, detectionCollisionRadius);
             }
+            
+
         }
     }
 }

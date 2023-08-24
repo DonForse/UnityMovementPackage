@@ -12,6 +12,7 @@ namespace MovementPackage.Runtime.Scripts
         public void Initialize(PlayerMovementData playerMovementData)
         {
             _playerMovementData = playerMovementData;
+            _playerMovementData.gravityMultiplier = 1f;
         }
 
         public void ProcessFixedUpdate()

@@ -19,18 +19,18 @@ namespace MovementPackage.Runtime.Scripts
         [SerializeField] private bool wallJumpEnabled = false;
         [SerializeField] private bool crouchEnabled = false;
         [SerializeField] private bool wallGrabEnabled = false;
-
         [SerializeField] private PlayerAnimatorManager playerAnimatorManager;
+
+        private PlayerMovementInputData _playerMovementInputData;
+        private PlayerMovementData _playerMovementData;
 
         private PlayerGravityComponent _playerGravityComponent;
         private PlayerMovementCollision _playerMovementCollision;
-        private PlayerMovementData _playerMovementData;
         private CharacterController _characterController;
         private PlayerJumpComponent _playerJumpComponent;
         private PlayerWalkComponent _playerWalkComponent;
         private PlayerWallJumpComponent _playerWallJumpComponent;
         private PlayerWallGrabComponent _playerWallGrabComponent;
-        private PlayerMovementInputData _playerMovementInputData;
         private PlayerCrouchComponent _playerCrouchComponent;
         private List<IMovementComponent> _actions;
 
@@ -78,7 +78,7 @@ namespace MovementPackage.Runtime.Scripts
             if (wallGrabEnabled)
             {
                 _playerWallGrabComponent = GetComponent<PlayerWallGrabComponent>();    
-                _playerWallGrabComponent.Initialize(_playerMovementData);
+                _playerWallGrabComponent.Initialize(_playerMovementData, _playerMovementInputData);
                 _actions.Add(_playerWallGrabComponent);
             }
 
@@ -118,7 +118,9 @@ namespace MovementPackage.Runtime.Scripts
 
             if (wallGrabEnabled)
                 playerAnimatorManager.SetGrab(_playerMovementData.grabbedToRightWall ||
-                                              _playerMovementData.grabbedToLeftWall);
+                                              _playerMovementData.grabbedToLeftWall || 
+                                              _playerMovementData.grabbedToBackWall ||
+                                              _playerMovementData.grabbedToForwardWall) ;
             playerAnimatorManager.SetCrouch(_playerMovementData.crouching);
         }
 
@@ -145,37 +147,5 @@ namespace MovementPackage.Runtime.Scripts
             _playerMovementInputData.verticalPressed = Input.GetAxis("Vertical");
             _playerMovementInputData.crouchPressed = Input.GetKey(KeyCode.LeftControl);
         }
-    }
-
-    public class PlayerMovementInputData
-    {
-        public bool jumpHold;
-        public bool jumpPressed;
-        public bool jumpReleased;
-        public float horizontalPressed;
-        public float verticalPressed;
-        public bool crouchPressed;
-    }
-
-    public class PlayerMovementData
-    {
-        public float playerVerticalSpeed;
-        public float gravityMultiplier = 1f;
-        public bool collidingGround;
-        public float playerHorizontalSpeed;
-        public float playerForwardSpeed;
-        public bool collidingRightWall;
-        public bool collidingLeftWall;
-        public bool grabbedToRightWall;
-        public bool grabbedToLeftWall;
-        public bool wallJumped;
-        public bool closeRightWall;
-        public bool closeLeftWall;
-        public bool crouching;
-        public float movementSpeedMultiplier = 1f;
-        public bool collidingForwardWall;
-        public bool collidingBackWall;
-        public bool closeForwardWall;
-        public bool closeBackWall;
     }
 }

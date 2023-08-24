@@ -4,7 +4,7 @@ namespace MovementPackage.Runtime.Scripts
 {
     public class PlayerCrouchComponent : MonoBehaviour, IMovementComponent
     {
-        [SerializeField] private float movementSpeedMultiplier;
+        [SerializeField] private float movementSpeedMultiplier = 0.5f;
         private PlayerMovementInputData _playerMovementInputData;
         private PlayerMovementData _playerMovementData;
         
@@ -28,7 +28,7 @@ namespace MovementPackage.Runtime.Scripts
             _playerMovementData.crouching = true;
         }
 
-        private bool IsGrounded() => _playerMovementData.collidingGround;
+        private bool IsGrounded() => _playerMovementData.closeGround;
         private bool IsPressingCrouch() => _playerMovementInputData.crouchPressed;
     }
 }

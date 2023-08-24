@@ -17,6 +17,7 @@ namespace MovementPackage.Runtime.Scripts
         {
             _playerMovementInputData = playerMovementInputData;
             _playerMovementData = playerMovementData;
+            _playerMovementData.movementSpeedMultiplier = 1f;
         }
 
         public void ProcessFixedUpdate()
