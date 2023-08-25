@@ -255,7 +255,7 @@ MonoBehaviour:
   gravityEnabled: 1
   walkEnabled: 1
   jumpEnabled: 1
-  wallJumpEnabled: 1
+  wallJumpEnabled: 0
   crouchEnabled: 1
   wallGrabEnabled: 0
   playerAnimatorManager: {fileID: 1243713800}
@@ -271,7 +271,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2611c968c6d21ed4caac71e1b094b024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeedMultiplier: 0
+  movementSpeedMultiplier: 0.5
+  changeHeightOnCrouch: 1
+  crouchHeight: 1
+  characterControllerCenterOnCrouch: {x: 0, y: -0.5, z: 0}
 --- !u!114 &1093435113
 MonoBehaviour:
   m_ObjectHideFlags: 0

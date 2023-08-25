@@ -10,8 +10,8 @@ namespace MovementPackage.Runtime.Scripts
         
         [SerializeField] private bool canMoveInOtherAxisWhileGrabbing = false;
         [SerializeField] private bool canMoveInSameAxisWhileGrabbing = false;
-        [SerializeField] private bool slideOff;
-        [SerializeField] private float slideOffStartAtTime;
+        [SerializeField] private bool slideOff = true;
+        [SerializeField] private float slideOffStartAtTime = 0.5f;
         [SerializeField] private float slideOffSpeed = -0.25f;
         private float _slideOffTimer = 0f;
 

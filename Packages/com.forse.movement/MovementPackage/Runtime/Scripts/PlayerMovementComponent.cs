@@ -56,7 +56,7 @@ namespace MovementPackage.Runtime.Scripts
             if (crouchEnabled)
             {
                 _playerCrouchComponent = GetComponent<PlayerCrouchComponent>();
-                _playerCrouchComponent.Initialize(_playerMovementData, _playerMovementInputData);
+                _playerCrouchComponent.Initialize(_playerMovementData, _playerMovementInputData, _characterController);
                 _actions.Add(_playerCrouchComponent);
             }
 
