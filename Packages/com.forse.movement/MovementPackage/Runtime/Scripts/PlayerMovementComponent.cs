@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,13 +14,17 @@ namespace MovementPackage.Runtime.Scripts
     [RequireComponent(typeof(PlayerCrouchComponent))]
     public class PlayerMovementComponent : MonoBehaviour
     {
+        public event EventHandler Jumped;
+        public event EventHandler<float> Moving;
+        public event EventHandler<bool> Grabbing;
+        public event EventHandler<bool> Crouching;
+        
         [SerializeField] private bool gravityEnabled = true;
         [SerializeField] private bool walkEnabled = true;
         [SerializeField] private bool jumpEnabled = true;
         [SerializeField] private bool wallJumpEnabled = false;
         [SerializeField] private bool crouchEnabled = false;
         [SerializeField] private bool wallGrabEnabled = false;
-        [SerializeField] private PlayerAnimatorManager playerAnimatorManager;
 
         private PlayerMovementInputData _playerMovementInputData;
         private PlayerMovementData _playerMovementData;
@@ -102,26 +107,29 @@ namespace MovementPackage.Runtime.Scripts
             
             LookAtDirection();
             ExecuteMovement();
-            Animate();
+            SendAnimationEvents();
 
             _playerMovementInputData.jumpPressed = false;
             _playerMovementInputData.jumpReleased = false;
         }
 
-        private void OnJump() => playerAnimatorManager.SetJump();
+        private void OnJump() => Jumped?.Invoke(this, null);
 
-        private void Animate()
+        private void SendAnimationEvents()
         {
-            playerAnimatorManager.SetSpeed(
-                Mathf.Abs(_playerMovementInputData.horizontalPressed) +
-                Mathf.Abs(_playerMovementInputData.verticalPressed));
+            Moving?.Invoke(this,Mathf.Abs(_playerMovementInputData.horizontalPressed) +
+                          Mathf.Abs(_playerMovementInputData.verticalPressed));
 
             if (wallGrabEnabled)
-                playerAnimatorManager.SetGrab(_playerMovementData.grabbedToRightWall ||
-                                              _playerMovementData.grabbedToLeftWall || 
-                                              _playerMovementData.grabbedToBackWall ||
-                                              _playerMovementData.grabbedToForwardWall) ;
-            playerAnimatorManager.SetCrouch(_playerMovementData.crouching);
+            {
+                Grabbing?.Invoke(this,_playerMovementData.grabbedToRightWall ||
+                                      _playerMovementData.grabbedToLeftWall || 
+                                      _playerMovementData.grabbedToBackWall ||
+                                      _playerMovementData.grabbedToForwardWall);
+            }
+
+            if (crouchEnabled)
+                Crouching?.Invoke(this,_playerMovementData.crouching);
         }
 
         private void ExecuteMovement()

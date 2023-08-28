@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -5,37 +6,31 @@ namespace MovementPackage.Runtime.Scripts
 {
     public class PlayerAnimatorManager : MonoBehaviour
     {
+        [SerializeField] private PlayerMovementComponent movementComponent;
         [SerializeField] private Animator animator;
-        [SerializeField] private ParticleSystem _stepPartycleSystem;
+        [SerializeField] private ParticleSystem stepPartycleSystem;
         private static readonly int MoveSpeedKey = Animator.StringToHash("moveSpeed");
         private static readonly int Jump = Animator.StringToHash("jump");
         private static readonly int Grab = Animator.StringToHash("grab");
         private static readonly int Crouch = Animator.StringToHash("crouch");
 
-        public void SetSpeed(float speed)
+        private void OnEnable()
         {
-            animator.SetFloat(MoveSpeedKey, speed);
+            movementComponent.Jumped += SetJump;
+            movementComponent.Grabbing += SetGrab;
+            movementComponent.Moving += SetSpeed;
+            movementComponent.Crouching += SetCrouch;
         }
 
-        public void SetJump()
-        {
-            animator.SetTrigger(Jump);
-        }
+        private void SetSpeed(object sender, float speed) => animator.SetFloat(MoveSpeedKey, speed);
 
-        public void SetGrab(bool value)
-        {
-            animator.SetBool(Grab, value);
-        }
+        private void SetCrouch(object sender, bool value) => animator.SetBool(Crouch, value);
+
+        private void SetGrab(object sender, bool value) => animator.SetBool(Grab, value);
+
+        private void SetJump(object sender, EventArgs e) => animator.SetTrigger(Jump);
 
         [UsedImplicitly]
-        public void TriggerParticleStep()
-        {
-            _stepPartycleSystem?.Play();
-        }
-
-        public void SetCrouch(bool value)
-        {
-            animator.SetBool(Crouch, value);
-        }
+        public void TriggerParticleStep() => stepPartycleSystem?.Play();
     }
 }
