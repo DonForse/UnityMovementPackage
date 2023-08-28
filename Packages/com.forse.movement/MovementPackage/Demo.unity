@@ -224,15 +224,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1093435120}
-  - component: {fileID: 1093435119}
-  - component: {fileID: 1093435111}
-  - component: {fileID: 1093435118}
-  - component: {fileID: 1093435117}
-  - component: {fileID: 1093435116}
-  - component: {fileID: 1093435115}
-  - component: {fileID: 1093435114}
-  - component: {fileID: 1093435113}
-  - component: {fileID: 1093435112}
+  - component: {fileID: 1093435124}
+  - component: {fileID: 1093435123}
+  - component: {fileID: 1093435122}
+  - component: {fileID: 1093435121}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -240,7 +235,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1093435111
+--- !u!4 &1093435120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093435110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1243713797}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1093435121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,9 +267,36 @@ MonoBehaviour:
   walkEnabled: 1
   jumpEnabled: 1
   wallJumpEnabled: 0
-  crouchEnabled: 1
+  crouchEnabled: 0
   wallGrabEnabled: 0
---- !u!114 &1093435112
+  walkParameters:
+    movementSpeed: 6
+  gravityParameters:
+    gravityValue: -2.21
+  jumpParameters:
+    jumpHeight: 4
+    jumpBufferingEnabled: 0
+    coyoteEnabled: 0
+    holdJumpEnabled: 0
+    jumpCooldownEnabled: 0
+    holdJumpGravity: 0.35
+    coyoteTime: 0.25
+    jumpCooldown: 0.1
+  crouchParameters:
+    movementSpeedMultiplier: 0.5
+    changeHeightOnCrouch: 1
+    crouchHeight: 1
+    characterControllerCenterOnCrouch: {x: -0, y: -0.5, z: -0}
+  wallGrabParameters:
+    canMoveInOtherAxisWhileGrabbing: 0
+    canMoveInSameAxisWhileGrabbing: 0
+    slideOff: 1
+    slideOffStartAtTime: 0.5
+    slideOffSpeed: -0.25
+  wallJumpParameters:
+    jumpHeight: 4
+    jumpOppositeSpeed: 4
+--- !u!114 &1093435122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,96 +305,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1093435110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2611c968c6d21ed4caac71e1b094b024, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b1255d19c8047e2a4f95c48a6597ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeedMultiplier: 0.5
-  changeHeightOnCrouch: 1
-  crouchHeight: 1
-  characterControllerCenterOnCrouch: {x: 0, y: -0.5, z: 0}
---- !u!114 &1093435113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093435110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3dbc4b441cfa9043af13efc5e2dea5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canMoveInOtherAxisWhileGrabbing: 0
-  canMoveInSameAxisWhileGrabbing: 0
-  slideOff: 0
-  slideOffStartAtTime: 0
-  slideOffSpeed: 0
---- !u!114 &1093435114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093435110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad1fd850ae9c9704281c0c2345c69d66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpHeight: 10
-  jumpOppositeSpeed: 10
-  wallJumpTimer: 0
-  wallJumpCooldown: 0.2
---- !u!114 &1093435115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093435110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170b4a2623987a745be6b4d30da0d047, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravityValue: -2.21
---- !u!114 &1093435116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093435110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3263a2731976904196bf9c1dedb07da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 6
---- !u!114 &1093435117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093435110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ec94d3c0c619cd449bd7da697ce7bb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Jumped:
-    m_PersistentCalls:
-      m_Calls: []
-  jumpHeight: 10
-  jumpBufferingEnabled: 0
-  coyoteEnabled: 0
-  holdJumpEnabled: 0
-  jumpCooldownEnabled: 0
-  holdJumpGravity: 0.35
-  coyoteTime: 0.25
-  jumpCooldown: 0.1
---- !u!114 &1093435118
+--- !u!114 &1093435123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -370,7 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   collisionRadius: 0.25
   groundDetection: 1
   bottomOffset: {x: 0, y: -1, z: 0}
@@ -381,14 +333,14 @@ MonoBehaviour:
   forwardOffset: {x: 0, y: 0.5, z: 1}
   backOffset: {x: 0, y: 0.5, z: -1}
   detectionCollisionRadius: 0.5
-  closeWallDetection: 1
-  wallRightOffset: {x: 1, y: 0.5, z: 0}
-  wallLeftOffset: {x: -1, y: 0.5, z: 0}
-  wallForwardOffset: {x: 0, y: 0.5, z: 1}
-  wallBackOffset: {x: 0, y: 0.5, z: -1}
-  closeGroundDetection: 1
-  groundBottomOffset: {x: 0, y: -1, z: 0}
---- !u!143 &1093435119
+  closeWallDetection: 0
+  wallRightOffset: {x: 1.5, y: 0.5, z: 0}
+  wallLeftOffset: {x: -1.5, y: 0.5, z: 0}
+  wallForwardOffset: {x: 0, y: 0.5, z: 1.5}
+  wallBackOffset: {x: 0, y: 0.5, z: -1.5}
+  closeGroundDetection: 0
+  groundBottomOffset: {x: 0, y: -1.5, z: 0}
+--- !u!143 &1093435124
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -414,22 +366,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &1093435120
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093435110}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1243713797}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1243713796
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30fdd45715e0a247bc1ce1d71f449f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementComponent: {fileID: 1093435111}
+  movementComponent: {fileID: 1093435121}
   animator: {fileID: 1243713801}
   stepPartycleSystem: {fileID: 0}
 --- !u!95 &1243713801

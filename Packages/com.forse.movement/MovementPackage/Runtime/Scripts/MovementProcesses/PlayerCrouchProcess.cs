@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
+using MovementPackage.Runtime.Scripts.Parameters;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace MovementPackage.Runtime.Scripts
+namespace MovementPackage.Runtime.Scripts.MovementProcesses
 {
-    public class PlayerCrouchComponent : MonoBehaviour, IMovementComponent
+    public class PlayerCrouchProcess : IMovementProcess
     {
-        [SerializeField] private float movementSpeedMultiplier = 0.5f;
-        [SerializeField] private bool changeHeightOnCrouch = true;
-        [SerializeField] private float crouchHeight =1f;
-        [SerializeField] private Vector3 characterControllerCenterOnCrouch = Vector3.up * -0.5f;
+
+
+        private CrouchParameters _crouchParameters;
         private PlayerMovementInputData _playerMovementInputData;
         private PlayerMovementData _playerMovementData;
         private CharacterController _characterController;
@@ -19,18 +18,20 @@ namespace MovementPackage.Runtime.Scripts
         private List<Action> _crouchActions;
         private List<Action> _unCrouchActions;
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData, CharacterController characterController)
+        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData, CharacterController characterController, CrouchParameters crouchParameters)
         {
             _playerMovementInputData = playerMovementInputData;
             _playerMovementData = playerMovementData;
             _characterController = characterController;
             _normalHeight = _characterController.height;
             _normalCenter = _characterController.center;
+            _crouchParameters = crouchParameters;
+            
             _crouchActions = new List<Action>() { Crouch };
             
             _unCrouchActions = new List<Action> { ResetCrouch };
             
-            if (changeHeightOnCrouch)
+            if (_crouchParameters.changeHeightOnCrouch)
             {
                 _unCrouchActions.Add(ResetCrouchHeight);
                 _crouchActions.Add(SetCrouchHeight);
@@ -56,7 +57,7 @@ namespace MovementPackage.Runtime.Scripts
 
         private void Crouch()
         {
-            _playerMovementData.movementSpeedMultiplier = movementSpeedMultiplier;
+            _playerMovementData.movementSpeedMultiplier = _crouchParameters.movementSpeedMultiplier;
             _playerMovementData.crouching = true;
         }
 
@@ -68,8 +69,8 @@ namespace MovementPackage.Runtime.Scripts
 
         private void SetCrouchHeight()
         {
-            _characterController.height = crouchHeight;
-            _characterController.center = characterControllerCenterOnCrouch;
+            _characterController.height = _crouchParameters.crouchHeight;
+            _characterController.center = _crouchParameters.characterControllerCenterOnCrouch;
         }
 
         private void ResetCrouchHeight()

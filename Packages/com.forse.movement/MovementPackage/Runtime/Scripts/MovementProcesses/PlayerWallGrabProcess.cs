@@ -1,24 +1,23 @@
+using MovementPackage.Runtime.Scripts.Parameters;
 using UnityEngine;
 
-namespace MovementPackage.Runtime.Scripts
+namespace MovementPackage.Runtime.Scripts.MovementProcesses
 {
-    public class PlayerWallGrabComponent : MonoBehaviour, IMovementComponent
+    public class PlayerWallGrabProcess : MonoBehaviour, IMovementProcess
     {
+        private WallGrabParameters _wallGrabParameters;
         // [HideInInspector]public UnityEvent GrabbedToWall = new();
         private PlayerMovementData _playerMovementData;
         private PlayerMovementInputData _playerMovementInputData;
         
-        [SerializeField] private bool canMoveInOtherAxisWhileGrabbing = false;
-        [SerializeField] private bool canMoveInSameAxisWhileGrabbing = false;
-        [SerializeField] private bool slideOff = true;
-        [SerializeField] private float slideOffStartAtTime = 0.5f;
-        [SerializeField] private float slideOffSpeed = -0.25f;
+
         private float _slideOffTimer = 0f;
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData)
+        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData, WallGrabParameters wallGrabParameters)
         {
             _playerMovementData = playerMovementData;
             _playerMovementInputData = playerMovementInputData;
+            _wallGrabParameters = wallGrabParameters;
         }
 
         public void ProcessFixedUpdate()
@@ -30,7 +29,7 @@ namespace MovementPackage.Runtime.Scripts
                 return;
             }
 
-            if (slideOff)
+            if (_wallGrabParameters.slideOff)
                 _slideOffTimer += Time.fixedDeltaTime;
 
             RightWall();
@@ -49,6 +48,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (IsGrabbingBackWall())
                 {
                     AdjustSpeedInZAxis();
+                    AdjustSpeedOnYAxis();
                 }
 
                 if (!IsGrabbingBackWall() && IsMovingTowardBackWall()) _slideOffTimer = 0f;
@@ -68,6 +68,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (IsGrabbingForwardWall())
                 {
                     AdjustSpeedInZAxis();
+                    AdjustSpeedOnYAxis();
                 }
 
                 if (!IsGrabbingForwardWall() && IsMovingTowardForwardWall()) _slideOffTimer = 0f;
@@ -87,6 +88,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (IsGrabbingLeftWall())
                 {
                     AdjustSpeedInXAxis();
+                    AdjustSpeedOnYAxis();
                 }
 
                 if (!IsGrabbingLeftWall() && IsMovingTowardLeftWall()) _slideOffTimer = 0f;
@@ -106,6 +108,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (IsGrabbingRightWall())
                 {
                     AdjustSpeedInXAxis();
+                    AdjustSpeedOnYAxis();
                 }
 
                 if (!IsGrabbingRightWall() && IsMovingTowardRightWall()) _slideOffTimer = 0f;
@@ -120,23 +123,26 @@ namespace MovementPackage.Runtime.Scripts
 
         private void AdjustSpeedInXAxis()
         {
-            if (!canMoveInOtherAxisWhileGrabbing)
+            if (!_wallGrabParameters.canMoveInOtherAxisWhileGrabbing)
                 _playerMovementData.playerForwardSpeed = 0f;
-            if (!canMoveInSameAxisWhileGrabbing)
+            if (!_wallGrabParameters.canMoveInSameAxisWhileGrabbing)
                 _playerMovementData.playerHorizontalSpeed = 0f;
-            _playerMovementData.playerVerticalSpeed = slideOff
-                ? (_slideOffTimer < slideOffStartAtTime ? 0f : slideOffSpeed * Time.fixedDeltaTime)
-                : 0f;
         }
 
         private void AdjustSpeedInZAxis()
         {
-            if (!canMoveInSameAxisWhileGrabbing)
+            if (!_wallGrabParameters.canMoveInSameAxisWhileGrabbing)
                 _playerMovementData.playerForwardSpeed = 0f;
-            if (!canMoveInOtherAxisWhileGrabbing)
+            if (!_wallGrabParameters.canMoveInOtherAxisWhileGrabbing)
                 _playerMovementData.playerHorizontalSpeed = 0f;
-            _playerMovementData.playerForwardSpeed = slideOff
-                ? (_slideOffTimer < slideOffStartAtTime ? 0f : slideOffSpeed * Time.fixedDeltaTime)
+        }
+
+        private void AdjustSpeedOnYAxis()
+        {
+            _playerMovementData.playerVerticalSpeed = _wallGrabParameters.slideOff
+                ? (_slideOffTimer < _wallGrabParameters.slideOffStartAtTime
+                    ? 0f
+                    : _wallGrabParameters.slideOffSpeed * Time.fixedDeltaTime)
                 : 0f;
         }
 

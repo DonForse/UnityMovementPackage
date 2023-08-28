@@ -1,25 +1,23 @@
+using MovementPackage.Runtime.Scripts.Parameters;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace MovementPackage.Runtime.Scripts
+namespace MovementPackage.Runtime.Scripts.MovementProcesses
 {
-    public class PlayerWallJumpComponent : MonoBehaviour, IMovementComponent
+    public class PlayerWallJumpProcess : MonoBehaviour, IMovementProcess
     {
-        [Header("Remember to enable Close Wall Detection in Player Movement Collision.")]
-        [Space]
-        [Space]
-        [SerializeField] private float jumpHeight = 4f;
-        [SerializeField] private float jumpOppositeSpeed = 4f;
+        private WallJumpParameters _wallJumpParameters;
         private PlayerMovementData _playerMovementData;
         private PlayerMovementInputData _playerMovementInputData;
         public float wallJumpTimer = 0f;
         public float wallJumpCooldown = 0.2f;
 
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData)
+        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData,
+            WallJumpParameters wallJumpParameters)
         {
             _playerMovementData = playerMovementData;
             _playerMovementInputData = playerMovementInputData;
+            _wallJumpParameters = wallJumpParameters;
         }
 
         public void ProcessFixedUpdate()
@@ -43,8 +41,8 @@ namespace MovementPackage.Runtime.Scripts
         private bool TryWallJumpBackWall()
         {
             if (!_playerMovementData.closeBackWall) return false;
-            _playerMovementData.playerForwardSpeed = jumpOppositeSpeed * Time.fixedDeltaTime;
-            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(jumpHeight * Time.fixedDeltaTime);
+            _playerMovementData.playerForwardSpeed = _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
+            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
             wallJumpTimer = 0f;
             return true;
@@ -53,8 +51,8 @@ namespace MovementPackage.Runtime.Scripts
         private bool TryWallJumpForwardWall()
         {
             if (!_playerMovementData.closeForwardWall) return false;
-            _playerMovementData.playerForwardSpeed = -1 * jumpOppositeSpeed * Time.fixedDeltaTime;
-            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(jumpHeight * Time.fixedDeltaTime);
+            _playerMovementData.playerForwardSpeed = -1 * _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
+            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
             wallJumpTimer = 0f;
             return true;
@@ -64,8 +62,8 @@ namespace MovementPackage.Runtime.Scripts
         private bool TryWallJumpLeftWall()
         {
             if (!_playerMovementData.closeLeftWall) return false;
-            _playerMovementData.playerHorizontalSpeed = jumpOppositeSpeed * Time.fixedDeltaTime;
-            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(jumpHeight * Time.fixedDeltaTime);
+            _playerMovementData.playerHorizontalSpeed = _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
+            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
             wallJumpTimer = 0f;
             return true;
@@ -75,8 +73,8 @@ namespace MovementPackage.Runtime.Scripts
         private bool TryWallJumpRightWall()
         {
             if (!_playerMovementData.closeRightWall) return false;
-            _playerMovementData.playerHorizontalSpeed = -1 * jumpOppositeSpeed * Time.fixedDeltaTime;
-            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(jumpHeight * Time.fixedDeltaTime);
+            _playerMovementData.playerHorizontalSpeed = -1 * _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
+            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
             wallJumpTimer = 0f;
             return true;

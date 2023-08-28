@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MovementPackage.Runtime.Scripts.MovementProcesses;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts
 {
-    public class PlayerMovementCollision : MonoBehaviour, IMovementComponent
+    public class PlayerMovementCollision : MonoBehaviour, IMovementProcess
     {
         [Header("Layers")] public LayerMask groundLayer;
 
