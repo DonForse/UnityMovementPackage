@@ -258,7 +258,6 @@ MonoBehaviour:
   wallJumpEnabled: 0
   crouchEnabled: 1
   wallGrabEnabled: 0
-  playerAnimatorManager: {fileID: 1243713800}
 --- !u!114 &1093435112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,8 +477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30fdd45715e0a247bc1ce1d71f449f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementComponent: {fileID: 1093435111}
   animator: {fileID: 1243713801}
-  _stepPartycleSystem: {fileID: 0}
+  stepPartycleSystem: {fileID: 0}
 --- !u!95 &1243713801
 Animator:
   serializedVersion: 5
