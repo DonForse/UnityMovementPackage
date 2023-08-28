@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MovementPackage.Runtime.Scripts.MovementProcesses
 {
-    public class PlayerWallJumpProcess : MonoBehaviour, IMovementProcess
+    public class PlayerWallJumpProcess : IMovementProcess
     {
         private WallJumpParameters _wallJumpParameters;
         private PlayerMovementData _playerMovementData;

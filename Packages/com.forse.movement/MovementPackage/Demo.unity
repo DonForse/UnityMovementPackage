@@ -266,9 +266,9 @@ MonoBehaviour:
   gravityEnabled: 1
   walkEnabled: 1
   jumpEnabled: 1
-  wallJumpEnabled: 0
-  crouchEnabled: 0
-  wallGrabEnabled: 0
+  wallJumpEnabled: 1
+  crouchEnabled: 1
+  wallGrabEnabled: 1
   walkParameters:
     movementSpeed: 6
   gravityParameters:

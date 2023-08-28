@@ -79,14 +79,14 @@ namespace MovementPackage.Runtime.Scripts
                 
                 if (wallGrabEnabled)
                 {
-                    _playerWallGrabProcess = GetComponent<PlayerWallGrabProcess>();    
+                    _playerWallGrabProcess = new PlayerWallGrabProcess();    
                     _playerWallGrabProcess.Initialize(_playerMovementData, _playerMovementInputData, wallGrabParameters);
                     _actions.Add(_playerWallGrabProcess);
                 }
 
                 if (wallJumpEnabled)
                 {
-                    _playerWallJumpProcess = GetComponent<PlayerWallJumpProcess>(); 
+                    _playerWallJumpProcess = new PlayerWallJumpProcess(); 
                     _playerWallJumpProcess.Initialize(_playerMovementData, _playerMovementInputData, wallJumpParameters);
                     _actions.Add(_playerWallJumpProcess);
                 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MovementPackage.Runtime.Scripts.MovementProcesses
 {
-    public class PlayerWallGrabProcess : MonoBehaviour, IMovementProcess
+    public class PlayerWallGrabProcess : IMovementProcess
     {
         private WallGrabParameters _wallGrabParameters;
         // [HideInInspector]public UnityEvent GrabbedToWall = new();
