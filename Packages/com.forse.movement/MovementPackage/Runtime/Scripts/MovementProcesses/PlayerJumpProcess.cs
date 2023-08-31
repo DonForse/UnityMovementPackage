@@ -18,15 +18,15 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
         private bool lastFrameGrounded;
         private PlayerMovementData _playerMovementData;
-        private PlayerMovementInputData _playerMovementInputData;
+        private PlayerMovementInputDataSo _playerMovementInputDataSo;
         private bool coyoteGroundedPlayer;
         private CoroutineHelper _coroutineHelper;
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData,
+        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputDataSo playerMovementInputDataSo,
             JumpParameters jumpParameters, CoroutineHelper coroutineHelper)
         {
             _playerMovementData = playerMovementData;
-            _playerMovementInputData = playerMovementInputData;
+            _playerMovementInputDataSo = playerMovementInputDataSo;
             _jumpParameters = jumpParameters;
             _coroutineHelper = coroutineHelper;
         }
@@ -41,16 +41,16 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
         private void JumpBuffering()
         {
-            if (_jumpParameters.jumpBufferingEnabled && (!_playerMovementInputData.jumpPressed && _playerMovementInputData.jumpHold &&
+            if (_jumpParameters.jumpBufferingEnabled && (!_playerMovementInputDataSo.jumpPressed && _playerMovementInputDataSo.jumpHold &&
                                          !lastFrameGrounded))
-                _playerMovementInputData.jumpPressed = true;
+                _playerMovementInputDataSo.jumpPressed = true;
         }
 
         private void HoldJump()
         {
             if (!_jumpParameters.holdJumpEnabled)
                 return;
-            _playerMovementData.gravityMultiplier = _playerMovementInputData.jumpHold ? _jumpParameters.holdJumpGravity : 1f;
+            _playerMovementData.gravityMultiplier = _playerMovementInputDataSo.jumpHold ? _jumpParameters.holdJumpGravity : 1f;
         }
 
         private void Grounded()
@@ -90,7 +90,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
         private void Jump()
         {
-            if (!_playerMovementInputData.jumpPressed)
+            if (!_playerMovementInputDataSo.jumpPressed)
                 return;
 
             if (!_playerMovementData.collidingGround && (!_jumpParameters.coyoteEnabled || !isOnCoyoteTime)) return;

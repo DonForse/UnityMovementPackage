@@ -4,6 +4,7 @@ using MovementPackage.Runtime.Scripts.CustomAttributes;
 using MovementPackage.Runtime.Scripts.MovementProcesses;
 using MovementPackage.Runtime.Scripts.Parameters;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts
 {
@@ -16,7 +17,10 @@ namespace MovementPackage.Runtime.Scripts
         public event EventHandler<float> Moving;
         public event EventHandler<bool> Grabbing;
         public event EventHandler<bool> Crouching;
-        
+
+        public PlayerMovementInputDataSo playerMovementInputDataSo;
+        public bool lookAtMovementDirection = false;
+
         public bool gravityEnabled = true;
         public bool walkEnabled = true;
         public bool jumpEnabled = true;
@@ -31,7 +35,6 @@ namespace MovementPackage.Runtime.Scripts
         [TabMenu("Wall Grab")][SerializeField] private WallGrabParameters wallGrabParameters;
         [TabMenu("Wall Jump")][SerializeField] private WallJumpParameters wallJumpParameters;
 
-        private PlayerMovementInputData _playerMovementInputData;
         private PlayerMovementData _playerMovementData;
 
         private PlayerGravityProcess _playerGravityProcess;
@@ -49,7 +52,6 @@ namespace MovementPackage.Runtime.Scripts
             _actions = new List<IMovementProcess>();
 
             _playerMovementData = new PlayerMovementData();
-            _playerMovementInputData = new PlayerMovementInputData();
             _characterController = GetComponent<CharacterController>();
 
             _playerMovementCollision = GetComponent<PlayerMovementCollision>();
@@ -66,28 +68,28 @@ namespace MovementPackage.Runtime.Scripts
             if (crouchEnabled)
             {
                 _playerCrouchProcess = new PlayerCrouchProcess();
-                _playerCrouchProcess.Initialize(_playerMovementData, _playerMovementInputData, _characterController, crouchParameters);
+                _playerCrouchProcess.Initialize(_playerMovementData, playerMovementInputDataSo, _characterController, crouchParameters);
                 _actions.Add(_playerCrouchProcess);
             }
 
             if (jumpEnabled)
             {
                 _playerJumpProcess = new PlayerJumpProcess();
-                _playerJumpProcess.Initialize(_playerMovementData, _playerMovementInputData, jumpParameters, GetComponent<CoroutineHelper>());
+                _playerJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, jumpParameters, GetComponent<CoroutineHelper>());
                 _playerJumpProcess.Jumped += OnJump;
                 _actions.Add(_playerJumpProcess);
                 
                 if (wallGrabEnabled)
                 {
                     _playerWallGrabProcess = new PlayerWallGrabProcess();    
-                    _playerWallGrabProcess.Initialize(_playerMovementData, _playerMovementInputData, wallGrabParameters);
+                    _playerWallGrabProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallGrabParameters);
                     _actions.Add(_playerWallGrabProcess);
                 }
 
                 if (wallJumpEnabled)
                 {
                     _playerWallJumpProcess = new PlayerWallJumpProcess(); 
-                    _playerWallJumpProcess.Initialize(_playerMovementData, _playerMovementInputData, wallJumpParameters);
+                    _playerWallJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallJumpParameters);
                     _actions.Add(_playerWallJumpProcess);
                 }
             }
@@ -95,7 +97,7 @@ namespace MovementPackage.Runtime.Scripts
             if (walkEnabled)
             {
                 _playerWalkProcess = new PlayerWalkProcess();
-                _playerWalkProcess.Initialize(_playerMovementInputData, _playerMovementData, walkParameters);
+                _playerWalkProcess.Initialize(playerMovementInputDataSo, _playerMovementData, walkParameters);
                 _actions.Add(_playerWalkProcess);
             }
         }
@@ -110,20 +112,20 @@ namespace MovementPackage.Runtime.Scripts
             foreach (var action in _actions)
                 action.ProcessFixedUpdate();
             
-            LookAtDirection();
             ExecuteMovement();
             SendAnimationEvents();
-
-            _playerMovementInputData.jumpPressed = false;
-            _playerMovementInputData.jumpReleased = false;
+            if (lookAtMovementDirection)
+                LookAtDirection();
+            playerMovementInputDataSo.jumpPressed = false;
+            playerMovementInputDataSo.jumpReleased = false;
         }
 
         private void OnJump(object sender, EventArgs args) => Jumped?.Invoke(this, null);
 
         private void SendAnimationEvents()
         {
-            Moving?.Invoke(this,Mathf.Abs(_playerMovementInputData.horizontalPressed) +
-                          Mathf.Abs(_playerMovementInputData.verticalPressed));
+            Moving?.Invoke(this,Mathf.Abs(playerMovementInputDataSo.horizontalPressed) +
+                          Mathf.Abs(playerMovementInputDataSo.verticalPressed));
 
             if (wallGrabEnabled)
             {
@@ -151,14 +153,6 @@ namespace MovementPackage.Runtime.Scripts
                 + Vector3.forward * _playerMovementData.playerForwardSpeed, Vector3.up);
         }
 
-        void Update()
-        {
-            _playerMovementInputData.jumpHold = Input.GetButton("Jump");
-            _playerMovementInputData.jumpPressed = _playerMovementInputData.jumpPressed || Input.GetButtonDown("Jump");
-            _playerMovementInputData.jumpReleased = _playerMovementInputData.jumpReleased || Input.GetButtonUp("Jump");
-            _playerMovementInputData.horizontalPressed = Input.GetAxis("Horizontal");
-            _playerMovementInputData.verticalPressed = Input.GetAxis("Vertical");
-            _playerMovementInputData.crouchPressed = Input.GetKey(KeyCode.LeftControl);
-        }
+
     }
 }

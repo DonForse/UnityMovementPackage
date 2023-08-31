@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 2137009981}
   - component: {fileID: 2137009980}
   - component: {fileID: 2137009979}
+  - component: {fileID: 2137009983}
   - component: {fileID: 2137009978}
   m_Layer: 0
   m_Name: Player
@@ -772,6 +773,7 @@ MonoBehaviour:
   wallJumpParameters:
     jumpHeight: 4
     jumpOppositeSpeed: 4
+  playerMovementInputDataSo: {fileID: 11400000, guid: c59d372c8dbb4d24a953400c438c8f40, type: 2}
 --- !u!114 &2137009979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,3 +860,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2137009983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137009977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ba037414a5476aa3bfb6d36377c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovementInputDataSo: {fileID: 11400000, guid: c59d372c8dbb4d24a953400c438c8f40, type: 2}

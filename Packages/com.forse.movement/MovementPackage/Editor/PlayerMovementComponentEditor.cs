@@ -27,6 +27,9 @@ namespace MovementPackage.Editor
             //DrawDefaultInspector();
             _tabMenus.Clear();
 
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("playerMovementInputDataSo"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("lookAtMovementDirection"));
+
             DrawToggles();
 
             EditorGUILayout.Separator();

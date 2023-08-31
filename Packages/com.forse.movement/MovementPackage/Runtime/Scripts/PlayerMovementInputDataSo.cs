@@ -1,9 +1,11 @@
 using System;
+using UnityEngine;
 
 namespace MovementPackage.Runtime.Scripts
 {
     [Serializable]
-    public class  PlayerMovementInputData
+    [CreateAssetMenu(fileName = "PlayerMovementInputData", menuName = "Movement/PlayerMovementInputData", order = 1)]
+    public class  PlayerMovementInputDataSo : ScriptableObject
     {
         public bool jumpHold;
         public bool jumpPressed;

@@ -10,7 +10,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
 
         private CrouchParameters _crouchParameters;
-        private PlayerMovementInputData _playerMovementInputData;
+        private PlayerMovementInputDataSo _playerMovementInputDataSo;
         private PlayerMovementData _playerMovementData;
         private CharacterController _characterController;
         private float _normalHeight;
@@ -18,9 +18,9 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         private List<Action> _crouchActions;
         private List<Action> _unCrouchActions;
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData, CharacterController characterController, CrouchParameters crouchParameters)
+        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputDataSo playerMovementInputDataSo, CharacterController characterController, CrouchParameters crouchParameters)
         {
-            _playerMovementInputData = playerMovementInputData;
+            _playerMovementInputDataSo = playerMovementInputDataSo;
             _playerMovementData = playerMovementData;
             _characterController = characterController;
             _normalHeight = _characterController.height;
@@ -81,6 +81,6 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         }
 
         private bool IsGrounded() => _playerMovementData.closeGround;
-        private bool IsPressingCrouch() => _playerMovementInputData.crouchPressed;
+        private bool IsPressingCrouch() => _playerMovementInputDataSo.crouchPressed;
     }
 }

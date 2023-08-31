@@ -6,12 +6,12 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
     public class PlayerWalkProcess : IMovementProcess
     {
         private PlayerMovementData _playerMovementData;
-        private PlayerMovementInputData _playerMovementInputData;
+        private PlayerMovementInputDataSo _playerMovementInputDataSo;
         private WalkParameters _walkParameters;
 
-        public void Initialize(PlayerMovementInputData playerMovementInputData, PlayerMovementData playerMovementData, WalkParameters walkParameters)
+        public void Initialize(PlayerMovementInputDataSo playerMovementInputDataSo, PlayerMovementData playerMovementData, WalkParameters walkParameters)
         {
-            _playerMovementInputData = playerMovementInputData;
+            _playerMovementInputDataSo = playerMovementInputDataSo;
             _playerMovementData = playerMovementData;
             _playerMovementData.movementSpeedMultiplier = 1f;
             _walkParameters = walkParameters;
@@ -20,8 +20,8 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         public void ProcessFixedUpdate()
         {
             if (_playerMovementData.wallJumped) return;
-            _playerMovementData.playerHorizontalSpeed = _playerMovementInputData.horizontalPressed * (_walkParameters.movementSpeed * Time.fixedDeltaTime) * _playerMovementData.movementSpeedMultiplier;
-            _playerMovementData.playerForwardSpeed = _playerMovementInputData.verticalPressed * (_walkParameters.movementSpeed * Time.fixedDeltaTime)* _playerMovementData.movementSpeedMultiplier;
+            _playerMovementData.playerHorizontalSpeed = _playerMovementInputDataSo.horizontalPressed * (_walkParameters.movementSpeed * Time.fixedDeltaTime) * _playerMovementData.movementSpeedMultiplier;
+            _playerMovementData.playerForwardSpeed = _playerMovementInputDataSo.verticalPressed * (_walkParameters.movementSpeed * Time.fixedDeltaTime)* _playerMovementData.movementSpeedMultiplier;
         }
     }
 }

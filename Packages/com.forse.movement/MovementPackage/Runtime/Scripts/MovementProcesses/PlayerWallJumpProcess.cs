@@ -7,16 +7,16 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
     {
         private WallJumpParameters _wallJumpParameters;
         private PlayerMovementData _playerMovementData;
-        private PlayerMovementInputData _playerMovementInputData;
+        private PlayerMovementInputDataSo _playerMovementInputDataSo;
         public float wallJumpTimer = 0f;
         public float wallJumpCooldown = 0.2f;
 
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputData playerMovementInputData,
+        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputDataSo playerMovementInputDataSo,
             WallJumpParameters wallJumpParameters)
         {
             _playerMovementData = playerMovementData;
-            _playerMovementInputData = playerMovementInputData;
+            _playerMovementInputDataSo = playerMovementInputDataSo;
             _wallJumpParameters = wallJumpParameters;
         }
 
@@ -27,7 +27,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             if (_playerMovementData.collidingGround)
                 return;
             
-            if (!_playerMovementInputData.jumpPressed) return;
+            if (!_playerMovementInputDataSo.jumpPressed) return;
             
             if (TryWallJumpRightWall()) return;
 
