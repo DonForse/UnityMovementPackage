@@ -7,7 +7,7 @@ namespace MovementPackage.Runtime.Scripts
     public class PlayerAnimatorManager : MonoBehaviour
     {
         [SerializeField] private PlayerMovementComponent movementComponent;
-        [SerializeField] private Animator animator;
+        [SerializeField] protected Animator animator;
         [SerializeField] private ParticleSystem stepPartycleSystem;
         private static readonly int MoveSpeedKey = Animator.StringToHash("moveSpeed");
         private static readonly int Jump = Animator.StringToHash("jump");
