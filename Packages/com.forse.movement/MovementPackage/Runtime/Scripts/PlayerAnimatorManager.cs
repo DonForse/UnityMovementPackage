@@ -14,7 +14,7 @@ namespace MovementPackage.Runtime.Scripts
         private static readonly int Grab = Animator.StringToHash("grab");
         private static readonly int Crouch = Animator.StringToHash("crouch");
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             movementComponent.Jumped += SetJump;
             movementComponent.Grabbing += SetGrab;
