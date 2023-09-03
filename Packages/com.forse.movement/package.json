@@ -1,9 +1,9 @@
 {
   "name": "com.forse.movement",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "displayName": "Forse 3d Movement",
   "description": "Simplified movement component",
-  "unity": "2018.3",
+  "unity": "2021.3",
   "author": {
     "name": "Maximiliano Rejlis",
     "mail": "maximiliano.rejlis@gmail.com"
