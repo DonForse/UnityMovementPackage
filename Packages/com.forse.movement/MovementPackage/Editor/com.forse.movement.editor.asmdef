@@ -1,0 +1,18 @@
+{
+    "name": "com.forse.movement.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4e61e5d3453a3b74ab3d9472c9b56afd"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

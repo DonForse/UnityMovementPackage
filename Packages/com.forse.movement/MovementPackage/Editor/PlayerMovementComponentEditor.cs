@@ -13,7 +13,7 @@ namespace MovementPackage.Editor
     {
         private readonly List<string> _tabMenus = new();
         private PlayerMovementComponent _target;
-        private int currentTab = 0;
+        private int _currentTab = 0;
         private bool _foldout;
 
         private void OnEnable()
@@ -38,12 +38,12 @@ namespace MovementPackage.Editor
             FieldInfo[] fields = _target.GetType().GetFields(
                 BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-            currentTab = GUILayout.Toolbar(currentTab, _tabMenus.ToArray());
+            _currentTab = GUILayout.Toolbar(_currentTab, _tabMenus.ToArray());
             foreach (var field in fields)
             {
                 var tabMenuAttr = Attribute.GetCustomAttribute(field, typeof(TabMenu)) as TabMenu;
 
-                if (tabMenuAttr != null && tabMenuAttr.TabName == _tabMenus[currentTab])
+                if (tabMenuAttr != null && tabMenuAttr.TabName == _tabMenus[_currentTab])
                 {
                     EditorGUILayout.PropertyField(serializedObject.FindProperty(field.Name));
                 }

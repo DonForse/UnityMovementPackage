@@ -4,7 +4,6 @@ using MovementPackage.Runtime.Scripts.CustomAttributes;
 using MovementPackage.Runtime.Scripts.MovementProcesses;
 using MovementPackage.Runtime.Scripts.Parameters;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts
 {
@@ -53,59 +52,78 @@ namespace MovementPackage.Runtime.Scripts
 
             _playerMovementData = new PlayerMovementData();
             _characterController = GetComponent<CharacterController>();
+            
+            InitializeCollisionComponent();
 
-            _playerMovementCollision = GetComponent<PlayerMovementCollision>();
-            _playerMovementCollision.Initialize(_playerMovementData);
-            _actions.Add(_playerMovementCollision);
+            AddGravityProcess();
+            AddCrouchProcess();
+            AddJumpProcess();
+            AddWallGrabProcess();
+            AddWallJumpProcess();
+            AddWalkProcess();
 
-            if (gravityEnabled)
+            void AddWalkProcess()
             {
+                if (!jumpEnabled) return;
+                if (!walkEnabled) return;
+                _playerWalkProcess = new PlayerWalkProcess();
+                _playerWalkProcess.Initialize(playerMovementInputDataSo, _playerMovementData, walkParameters);
+                _actions.Add(_playerWalkProcess);
+            }
+
+            void AddWallJumpProcess()
+            {
+                if (!jumpEnabled) return;
+                if (!wallJumpEnabled) return;
+                _playerWallJumpProcess = new PlayerWallJumpProcess();
+                _playerWallJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallJumpParameters);
+                _actions.Add(_playerWallJumpProcess);
+            }
+
+            void AddWallGrabProcess()
+            {
+                if (!wallGrabEnabled) return;
+                _playerWallGrabProcess = new PlayerWallGrabProcess();
+                _playerWallGrabProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallGrabParameters);
+                _actions.Add(_playerWallGrabProcess);
+            }
+
+            void AddJumpProcess()
+            {
+                if (!jumpEnabled) return;
+                _playerJumpProcess = new PlayerJumpProcess();
+                _playerJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, jumpParameters,
+                    GetComponent<CoroutineHelper>());
+                _playerJumpProcess.Jumped += OnJump;
+                _actions.Add(_playerJumpProcess);
+            }
+
+            void AddCrouchProcess()
+            {
+                if (!crouchEnabled) return;
+                _playerCrouchProcess = new PlayerCrouchProcess();
+                _playerCrouchProcess.Initialize(_playerMovementData, playerMovementInputDataSo, _characterController,
+                    crouchParameters);
+                _actions.Add(_playerCrouchProcess);
+            }
+
+            void AddGravityProcess()
+            {
+                if (!gravityEnabled) return;
                 _playerGravityProcess = new PlayerGravityProcess();
                 _playerGravityProcess.Initialize(_playerMovementData, gravityParameters);
                 _actions.Add(_playerGravityProcess);
             }
 
-            if (crouchEnabled)
+            void InitializeCollisionComponent()
             {
-                _playerCrouchProcess = new PlayerCrouchProcess();
-                _playerCrouchProcess.Initialize(_playerMovementData, playerMovementInputDataSo, _characterController, crouchParameters);
-                _actions.Add(_playerCrouchProcess);
-            }
-
-            if (jumpEnabled)
-            {
-                _playerJumpProcess = new PlayerJumpProcess();
-                _playerJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, jumpParameters, GetComponent<CoroutineHelper>());
-                _playerJumpProcess.Jumped += OnJump;
-                _actions.Add(_playerJumpProcess);
-                
-                if (wallGrabEnabled)
-                {
-                    _playerWallGrabProcess = new PlayerWallGrabProcess();    
-                    _playerWallGrabProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallGrabParameters);
-                    _actions.Add(_playerWallGrabProcess);
-                }
-
-                if (wallJumpEnabled)
-                {
-                    _playerWallJumpProcess = new PlayerWallJumpProcess(); 
-                    _playerWallJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallJumpParameters);
-                    _actions.Add(_playerWallJumpProcess);
-                }
-            }
-
-            if (walkEnabled)
-            {
-                _playerWalkProcess = new PlayerWalkProcess();
-                _playerWalkProcess.Initialize(playerMovementInputDataSo, _playerMovementData, walkParameters);
-                _actions.Add(_playerWalkProcess);
+                _playerMovementCollision = GetComponent<PlayerMovementCollision>();
+                _playerMovementCollision.Initialize(_playerMovementData);
+                _actions.Add(_playerMovementCollision);
             }
         }
 
-        private void OnDisable()
-        {
-            _playerJumpProcess.Jumped -= OnJump;
-        }
+        private void OnDisable() => _playerJumpProcess.Jumped -= OnJump;
 
         private void FixedUpdate()
         {
