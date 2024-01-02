@@ -44,6 +44,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.playerForwardSpeed = _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
+            _playerMovementData.grabbedToBackWall = false;
             wallJumpTimer = 0f;
             return true;
         }
@@ -55,6 +56,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
             wallJumpTimer = 0f;
+            _playerMovementData.grabbedToForwardWall = false;
             return true;
 
         }
@@ -65,6 +67,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.playerHorizontalSpeed = _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
+            _playerMovementData.grabbedToLeftWall = false;
             wallJumpTimer = 0f;
             return true;
 
@@ -76,6 +79,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.playerHorizontalSpeed = -1 * _wallJumpParameters.jumpOppositeSpeed * Time.fixedDeltaTime;
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_wallJumpParameters.jumpHeight * Time.fixedDeltaTime);
             _playerMovementData.wallJumped = true;
+            _playerMovementData.grabbedToRightWall = false;
             wallJumpTimer = 0f;
             return true;
 

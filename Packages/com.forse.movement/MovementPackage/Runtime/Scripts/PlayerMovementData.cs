@@ -27,5 +27,9 @@ namespace MovementPackage.Runtime.Scripts
         public bool closeBackWall;
         public bool closeGround;
 
+        public bool IsGrabbedToWall()
+        {
+            return grabbedToRightWall || grabbedToLeftWall || grabbedToBackWall || grabbedToForwardWall;
+        }
     }
 }

@@ -58,9 +58,9 @@ namespace MovementPackage.Runtime.Scripts
             AddGravityProcess();
             AddCrouchProcess();
             AddJumpProcess();
-            AddWallGrabProcess();
             AddWallJumpProcess();
             AddWalkProcess();
+            AddWallGrabProcess();
 
             void AddWalkProcess()
             {
@@ -147,10 +147,7 @@ namespace MovementPackage.Runtime.Scripts
 
             if (wallGrabEnabled)
             {
-                Grabbing?.Invoke(this,_playerMovementData.grabbedToRightWall ||
-                                      _playerMovementData.grabbedToLeftWall || 
-                                      _playerMovementData.grabbedToBackWall ||
-                                      _playerMovementData.grabbedToForwardWall);
+                Grabbing?.Invoke(this,_playerMovementData.IsGrabbedToWall());
             }
 
             if (crouchEnabled)

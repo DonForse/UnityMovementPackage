@@ -6,14 +6,16 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
     public class PlayerWallGrabProcess : IMovementProcess
     {
         private WallGrabParameters _wallGrabParameters;
+
         // [HideInInspector]public UnityEvent GrabbedToWall = new();
         private PlayerMovementData _playerMovementData;
         private PlayerMovementInputDataSo _playerMovementInputDataSo;
-        
+
 
         private float _slideOffTimer = 0f;
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputDataSo playerMovementInputDataSo, WallGrabParameters wallGrabParameters)
+        public void Initialize(PlayerMovementData playerMovementData,
+            PlayerMovementInputDataSo playerMovementInputDataSo, WallGrabParameters wallGrabParameters)
         {
             _playerMovementData = playerMovementData;
             _playerMovementInputDataSo = playerMovementInputDataSo;
@@ -26,6 +28,9 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             {
                 _playerMovementData.grabbedToLeftWall = false;
                 _playerMovementData.grabbedToRightWall = false;
+                _playerMovementData.grabbedToForwardWall = false;
+                _playerMovementData.grabbedToBackWall = false;
+
                 return;
             }
 
@@ -45,13 +50,15 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         {
             if (_playerMovementData.collidingBackWall)
             {
-                if (IsGrabbingBackWall())
+                if (IsGrabbingBackWall() && IsMovingTowardBackWall())
                 {
                     AdjustSpeedInZAxis();
                     AdjustSpeedOnYAxis();
                 }
-
-                if (!IsGrabbingBackWall() && IsMovingTowardBackWall()) _slideOffTimer = 0f;
+                else
+                {
+                    _slideOffTimer = 0f;
+                }
 
                 _playerMovementData.grabbedToBackWall = IsMovingTowardBackWall();
             }
@@ -65,13 +72,15 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         {
             if (_playerMovementData.collidingForwardWall)
             {
-                if (IsGrabbingForwardWall())
+                if (IsGrabbingForwardWall() && IsMovingTowardForwardWall())
                 {
                     AdjustSpeedInZAxis();
                     AdjustSpeedOnYAxis();
                 }
-
-                if (!IsGrabbingForwardWall() && IsMovingTowardForwardWall()) _slideOffTimer = 0f;
+                else
+                {
+                    _slideOffTimer = 0f;
+                }
 
                 _playerMovementData.grabbedToForwardWall = IsMovingTowardForwardWall();
             }
@@ -85,13 +94,15 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         {
             if (_playerMovementData.collidingLeftWall)
             {
-                if (IsGrabbingLeftWall())
+                if (IsGrabbingLeftWall() && IsMovingTowardLeftWall())
                 {
                     AdjustSpeedInXAxis();
                     AdjustSpeedOnYAxis();
                 }
-
-                if (!IsGrabbingLeftWall() && IsMovingTowardLeftWall()) _slideOffTimer = 0f;
+                else
+                {
+                    _slideOffTimer = 0f;
+                }
 
                 _playerMovementData.grabbedToLeftWall = IsMovingTowardLeftWall();
             }
@@ -103,16 +114,17 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
         private void RightWall()
         {
-            if (_playerMovementData.collidingRightWall)
+            if (_playerMovementData.collidingRightWall && IsMovingTowardRightWall())
             {
                 if (IsGrabbingRightWall())
                 {
                     AdjustSpeedInXAxis();
                     AdjustSpeedOnYAxis();
                 }
-
-                if (!IsGrabbingRightWall() && IsMovingTowardRightWall()) _slideOffTimer = 0f;
-
+                else
+                {
+                    _slideOffTimer = 0f;
+                }
                 _playerMovementData.grabbedToRightWall = IsMovingTowardRightWall();
             }
             else
@@ -124,9 +136,9 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         private void AdjustSpeedInXAxis()
         {
             if (!_wallGrabParameters.canMoveInOtherAxisWhileGrabbing)
-                _playerMovementData.playerForwardSpeed = 0f;
-            if (!_wallGrabParameters.canMoveInSameAxisWhileGrabbing)
                 _playerMovementData.playerHorizontalSpeed = 0f;
+            if (!_wallGrabParameters.canMoveInSameAxisWhileGrabbing)
+                _playerMovementData.playerForwardSpeed = 0f;
         }
 
         private void AdjustSpeedInZAxis()
@@ -146,10 +158,18 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
                 : 0f;
         }
 
-        private bool IsMovingTowardForwardWall() => _playerMovementInputDataSo.verticalPressed > 0;
-        private bool IsMovingTowardBackWall() => _playerMovementInputDataSo.verticalPressed < 0;
-        private bool IsMovingTowardLeftWall() => _playerMovementInputDataSo.horizontalPressed < 0;
-        private bool IsMovingTowardRightWall() => _playerMovementInputDataSo.horizontalPressed > 0;
+        private bool IsMovingTowardForwardWall() => _playerMovementInputDataSo.verticalPressed > 0 &&
+                                                    _playerMovementData.playerForwardSpeed >= 0;
+
+        private bool IsMovingTowardBackWall() => _playerMovementInputDataSo.verticalPressed < 0 &&
+                                                 _playerMovementData.playerForwardSpeed <= 0;
+
+        private bool IsMovingTowardLeftWall() => _playerMovementInputDataSo.horizontalPressed < 0 &&
+                                                 _playerMovementData.playerHorizontalSpeed <= 0;
+
+        private bool IsMovingTowardRightWall() => _playerMovementInputDataSo.horizontalPressed > 0f &&
+                                                  _playerMovementData.playerHorizontalSpeed >= 0f;
+
         private bool IsGrabbingLeftWall() => _playerMovementData.grabbedToLeftWall;
         private bool IsGrabbingForwardWall() => _playerMovementData.grabbedToForwardWall;
         private bool IsGrabbingBackWall() => _playerMovementData.grabbedToBackWall;
