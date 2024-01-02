@@ -61,8 +61,21 @@ namespace MovementPackage.Editor
             DrawWalk();
             DrawJumpSection();
             DrawCrouch();
+            DrawHook();
 
             GUILayout.EndVertical();
+        }
+
+        private void DrawHook()
+        {
+            AddToggle("Hook", ref _target.hookEnabled);
+            AddHookMenu();
+
+            void AddHookMenu()
+            {
+                if (!_target.hookEnabled) return;
+                _tabMenus.Add("Hook");
+            }
         }
 
         private void DrawCrouch()

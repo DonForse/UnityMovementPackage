@@ -25,6 +25,7 @@ namespace MovementPackage.Runtime.Scripts
         public bool jumpEnabled = true;
         public bool wallJumpEnabled = false;
         public bool crouchEnabled = false;
+        public bool hookEnabled = false;
         public bool wallGrabEnabled = false;
 
         [TabMenu("Walk")] [SerializeField] private WalkParameters walkParameters;
@@ -33,7 +34,7 @@ namespace MovementPackage.Runtime.Scripts
         [TabMenu("Crouch")][SerializeField] private CrouchParameters crouchParameters;
         [TabMenu("Wall Grab")][SerializeField] private WallGrabParameters wallGrabParameters;
         [TabMenu("Wall Jump")][SerializeField] private WallJumpParameters wallJumpParameters;
-
+        [TabMenu("Hook")][SerializeField] private HookParameters hookParameters;
         private PlayerMovementData _playerMovementData;
 
         private PlayerGravityProcess _playerGravityProcess;
@@ -44,7 +45,9 @@ namespace MovementPackage.Runtime.Scripts
         private PlayerWallJumpProcess _playerWallJumpProcess;
         private PlayerWallGrabProcess _playerWallGrabProcess;
         private PlayerCrouchProcess _playerCrouchProcess;
+        private PlayerHookProcess _playerHookProcess;
         private List<IMovementProcess> _actions;
+        public MovementProcessesEvents Events = new MovementProcessesEvents();
 
         private void OnEnable()
         {
@@ -61,6 +64,7 @@ namespace MovementPackage.Runtime.Scripts
             AddWallJumpProcess();
             AddWalkProcess();
             AddWallGrabProcess();
+            AddHookProcess();
 
             void AddWalkProcess()
             {
@@ -105,6 +109,14 @@ namespace MovementPackage.Runtime.Scripts
                 _playerCrouchProcess.Initialize(_playerMovementData, playerMovementInputDataSo, _characterController,
                     crouchParameters);
                 _actions.Add(_playerCrouchProcess);
+            }
+
+            void AddHookProcess()
+            {
+                if (!hookEnabled) return;
+                _playerHookProcess = new PlayerHookProcess();
+                _playerHookProcess.Initialize(_playerMovementData, playerMovementInputDataSo, hookParameters, this.transform, Events);
+                _actions.Add(_playerHookProcess);
             }
 
             void AddGravityProcess()

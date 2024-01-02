@@ -13,5 +13,7 @@ namespace MovementPackage.Runtime.Scripts
         public float horizontalPressed;
         public float verticalPressed;
         public bool crouchPressed;
+        public bool hookPressed;
+        public bool inputBlocked;
     }
 }
