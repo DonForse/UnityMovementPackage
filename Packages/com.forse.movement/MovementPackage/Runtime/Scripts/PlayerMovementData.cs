@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts
 {
@@ -16,16 +17,18 @@ namespace MovementPackage.Runtime.Scripts
         public bool grabbedToLeftWall;
         public bool grabbedToForwardWall;
         public bool grabbedToBackWall;
-        public bool wallJumped;
         public bool closeRightWall;
         public bool closeLeftWall;
-        public bool crouching;
         public float movementSpeedMultiplier;
         public bool collidingForwardWall;
         public bool collidingBackWall;
         public bool closeForwardWall;
         public bool closeBackWall;
         public bool closeGround;
+
+        public bool crouching;
+        public bool wallJumping;
+        public bool hooking;
 
         public bool IsGrabbedToWall()
         {

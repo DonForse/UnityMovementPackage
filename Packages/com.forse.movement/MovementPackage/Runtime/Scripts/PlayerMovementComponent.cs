@@ -115,7 +115,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!hookEnabled) return;
                 _playerHookProcess = new PlayerHookProcess();
-                _playerHookProcess.Initialize(_playerMovementData, playerMovementInputDataSo, hookParameters, this.transform, Events);
+                _playerHookProcess.Initialize(_playerMovementData, playerMovementInputDataSo, hookParameters, this.transform, Events, GetComponent<CoroutineHelper>());
                 _actions.Add(_playerHookProcess);
             }
 

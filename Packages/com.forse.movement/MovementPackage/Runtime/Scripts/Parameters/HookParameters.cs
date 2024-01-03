@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts.Parameters
 {
@@ -15,7 +16,9 @@ namespace MovementPackage.Runtime.Scripts.Parameters
         public float hookJumpOffHeight;
         public float hookRangeDistance;
         public float detectionAngle;
-
+        
+        [FormerlySerializedAs("hookJumpCooldown")] public float hookCooldown = 0.2f;
+        public float hookInStopDistance = 1f;
     }
 
     public enum HookDropOffEnum

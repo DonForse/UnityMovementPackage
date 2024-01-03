@@ -11,5 +11,7 @@ namespace MovementPackage.Runtime.Scripts.Parameters
         [Space]
         public float jumpHeight = 4f;
         public float jumpOppositeSpeed = 4f;
+        public float wallJumpCooldown = 0.2f;
+
     }
 }

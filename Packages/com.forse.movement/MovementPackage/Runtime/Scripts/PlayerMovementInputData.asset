@@ -18,3 +18,5 @@ MonoBehaviour:
   horizontalPressed: 0
   verticalPressed: 0
   crouchPressed: 0
+  hookPressed: 0
+  inputBlocked: 0
