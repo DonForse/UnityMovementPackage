@@ -67,7 +67,6 @@ namespace MovementPackage.Runtime.Scripts
 
             void AddWalkProcess()
             {
-                if (!jumpEnabled) return;
                 if (!walkEnabled) return;
                 _playerWalkProcess = new PlayerWalkProcess();
                 _playerWalkProcess.Initialize(playerMovementInputDataSo, _playerMovementData, walkParameters);
@@ -85,6 +84,7 @@ namespace MovementPackage.Runtime.Scripts
 
             void AddWallGrabProcess()
             {
+                if (!jumpEnabled) return;
                 if (!wallGrabEnabled) return;
                 _playerWallGrabProcess = new PlayerWallGrabProcess();
                 _playerWallGrabProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallGrabParameters);
