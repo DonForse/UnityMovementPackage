@@ -55,7 +55,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         {
             if (_hookParameters.continueHookDirection == HookDropOffEnum.ContinueDirection)
             {
-                hookDestination = closestHook.transform;
+                hookDestination = closestHook.transform.position;
                 startTime = Time.fixedTime;
                 journeyLength = Vector3.Distance(_playerTransform.position,  hookDestination);
                 _playerMovementInputDataSo.inputBlocked = true;
