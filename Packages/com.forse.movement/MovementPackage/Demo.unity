@@ -239,7 +239,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637875317}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e4f2fbdcef8bf3409fb8b79233b2087, type: 3}
   m_Name: 
@@ -589,7 +589,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1013,11 +1013,11 @@ MonoBehaviour:
   lookAtMovementDirection: 0
   gravityEnabled: 1
   walkEnabled: 1
-  jumpEnabled: 1
-  wallJumpEnabled: 1
+  jumpEnabled: 0
+  wallJumpEnabled: 0
   crouchEnabled: 0
   hookEnabled: 1
-  wallGrabEnabled: 1
+  wallGrabEnabled: 0
   walkParameters:
     movementSpeed: 12
   gravityParameters:
@@ -1025,7 +1025,7 @@ MonoBehaviour:
   jumpParameters:
     jumpHeight: 15
     jumpBufferingEnabled: 0
-    coyoteEnabled: 1
+    coyoteEnabled: 0
     holdJumpEnabled: 0
     jumpCooldownEnabled: 0
     holdJumpGravity: 0.35
@@ -1045,17 +1045,20 @@ MonoBehaviour:
   wallJumpParameters:
     jumpHeight: 15
     jumpOppositeSpeed: 12
+    wallJumpCooldown: 0.2
   hookParameters:
     blockInput: 1
     hookLayerMask:
       serializedVersion: 2
       m_Bits: 128
     continueHookDirection: 0
-    hookJumpInSpeed: 20
+    hookJumpInSpeed: 1
     hookJumpOffSpeed: 20
     hookJumpOffHeight: 20
     hookRangeDistance: 20
     detectionAngle: 135
+    hookCooldown: 0.2
+    hookInStopDistance: 1
 --- !u!114 &2137009979
 MonoBehaviour:
   m_ObjectHideFlags: 0

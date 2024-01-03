@@ -8,7 +8,6 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
     public class PlayerJumpProcess : IMovementProcess
     {
         private JumpParameters _jumpParameters;
-        public event EventHandler Jumped;
        
 
         private bool isOnCoyoteTime;
@@ -21,14 +20,16 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         private PlayerMovementInputDataSo _playerMovementInputDataSo;
         private bool coyoteGroundedPlayer;
         private CoroutineHelper _coroutineHelper;
+        private MovementProcessesEvents _movementProcessesEvents;
 
         public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputDataSo playerMovementInputDataSo,
-            JumpParameters jumpParameters, CoroutineHelper coroutineHelper)
+            JumpParameters jumpParameters, CoroutineHelper coroutineHelper, MovementProcessesEvents movementProcessesEvents)
         {
             _playerMovementData = playerMovementData;
             _playerMovementInputDataSo = playerMovementInputDataSo;
             _jumpParameters = jumpParameters;
             _coroutineHelper = coroutineHelper;
+            _movementProcessesEvents = movementProcessesEvents;
         }
 
         public void ProcessFixedUpdate()
@@ -102,7 +103,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_jumpParameters.jumpHeight * Time.fixedDeltaTime);
             cancelCoyote = true;
             coyoteGroundedPlayer = false;
-            Jumped?.Invoke(this, null);
+            _movementProcessesEvents.Jumped?.Invoke(null);
         }
 
         private void CoyoteJumpTime()

@@ -12,7 +12,6 @@ namespace MovementPackage.Runtime.Scripts
     [RequireComponent(typeof(CoroutineHelper))]
     public class PlayerMovementComponent : MonoBehaviour
     {
-        public event EventHandler Jumped;
         public event EventHandler<float> Moving;
         public event EventHandler<bool> Grabbing;
         public event EventHandler<bool> Crouching;
@@ -97,8 +96,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (!jumpEnabled) return;
                 _playerJumpProcess = new PlayerJumpProcess();
                 _playerJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, jumpParameters,
-                    GetComponent<CoroutineHelper>());
-                _playerJumpProcess.Jumped += OnJump;
+                    GetComponent<CoroutineHelper>(), Events);
                 _actions.Add(_playerJumpProcess);
             }
 
@@ -134,9 +132,7 @@ namespace MovementPackage.Runtime.Scripts
                 _actions.Add(_playerMovementCollision);
             }
         }
-
-        private void OnDisable() => _playerJumpProcess.Jumped -= OnJump;
-
+        
         private void FixedUpdate()
         {
             foreach (var action in _actions)
@@ -149,9 +145,7 @@ namespace MovementPackage.Runtime.Scripts
             playerMovementInputDataSo.jumpPressed = false;
             playerMovementInputDataSo.jumpReleased = false;
         }
-
-        private void OnJump(object sender, EventArgs args) => Jumped?.Invoke(this, null);
-
+        
         private void SendAnimationEvents()
         {
             Moving?.Invoke(this,Mathf.Abs(playerMovementInputDataSo.horizontalPressed) +

@@ -18,7 +18,7 @@ namespace MovementPackage.Runtime.Scripts
             playerMovementInputDataSo.horizontalPressed = Input.GetAxis("Horizontal");
             playerMovementInputDataSo.verticalPressed = Input.GetAxis("Vertical");
             playerMovementInputDataSo.crouchPressed = Input.GetKey(KeyCode.LeftControl);
-            playerMovementInputDataSo.hookPressed = Input.GetKeyDown(KeyCode.LeftControl);
+            playerMovementInputDataSo.hookPressed =playerMovementInputDataSo.hookPressed|| Input.GetKeyDown(KeyCode.LeftControl);
 
         }
     }
