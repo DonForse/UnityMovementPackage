@@ -86,7 +86,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
         private void ProcessWallJumpCooldownTimer()
         {
-            if (_wallJumpParameters.wallJumpCooldown > wallJumpTimer)
+            if (_wallJumpParameters.wallJumpBlockDirectionTime > wallJumpTimer)
                 wallJumpTimer += Time.fixedDeltaTime;
             else
                 _playerMovementData.wallJumping = false;

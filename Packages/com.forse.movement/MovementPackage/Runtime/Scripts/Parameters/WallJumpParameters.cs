@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts.Parameters
 {
@@ -11,7 +12,7 @@ namespace MovementPackage.Runtime.Scripts.Parameters
         [Space]
         public float jumpHeight = 4f;
         public float jumpOppositeSpeed = 4f;
-        public float wallJumpCooldown = 0.2f;
+        public float wallJumpBlockDirectionTime = 0.2f;
 
     }
 }

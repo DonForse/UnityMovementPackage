@@ -1009,27 +1009,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918598c1be1ae2c45bd2eb047290e9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableXAxis: 1
+  enableYAxis: 1
+  enableZAxis: 1
   playerMovementInputDataSo: {fileID: 11400000, guid: c59d372c8dbb4d24a953400c438c8f40, type: 2}
-  lookAtMovementDirection: 0
+  lookAtMovementDirection: 1
   gravityEnabled: 1
   walkEnabled: 1
-  jumpEnabled: 0
-  wallJumpEnabled: 0
+  jumpEnabled: 1
+  wallJumpEnabled: 1
   crouchEnabled: 0
-  hookEnabled: 0
+  hookEnabled: 1
   wallGrabEnabled: 0
   walkParameters:
     movementSpeed: 12
   gravityParameters:
     gravityValue: -2.21
   jumpParameters:
-    jumpHeight: 15
-    jumpBufferingEnabled: 0
-    coyoteEnabled: 0
-    holdJumpEnabled: 0
+    jumpHeight: 5
+    jumpBufferingEnabled: 1
+    coyoteEnabled: 1
+    holdJumpEnabled: 1
     jumpCooldownEnabled: 0
     holdJumpGravity: 0.35
-    coyoteTime: 5
+    coyoteTime: 0.25
     jumpCooldown: 0.1
   crouchParameters:
     movementSpeedMultiplier: 0.5
@@ -1043,7 +1046,7 @@ MonoBehaviour:
     slideOffStartAtTime: 3
     slideOffSpeed: -0.25
   wallJumpParameters:
-    jumpHeight: 15
+    jumpHeight: 7
     jumpOppositeSpeed: 12
     wallJumpCooldown: 0.2
   hookParameters:

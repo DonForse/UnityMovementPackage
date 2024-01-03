@@ -12,6 +12,9 @@ namespace MovementPackage.Runtime.Scripts
     [RequireComponent(typeof(CoroutineHelper))]
     public class PlayerMovementComponent : MonoBehaviour
     {
+        public bool enableXAxis;
+        public bool enableYAxis;
+        public bool enableZAxis;
         public event EventHandler<float> Moving;
         public event EventHandler<bool> Grabbing;
         public event EventHandler<bool> Crouching;
@@ -51,7 +54,6 @@ namespace MovementPackage.Runtime.Scripts
         private void OnEnable()
         {
             _actions = new List<IMovementProcess>();
-
             _playerMovementData = new PlayerMovementData();
             _characterController = GetComponent<CharacterController>();
             
@@ -162,8 +164,10 @@ namespace MovementPackage.Runtime.Scripts
 
         private void ExecuteMovement()
         {
-            _characterController.Move(new Vector3(_playerMovementData.playerHorizontalSpeed,
-                _playerMovementData.playerVerticalSpeed, _playerMovementData.playerForwardSpeed));
+            _characterController.Move(new Vector3(
+                _playerMovementData.playerHorizontalSpeed * BoolToInt(enableXAxis),
+                _playerMovementData.playerVerticalSpeed * BoolToInt(enableYAxis), 
+                _playerMovementData.playerForwardSpeed * BoolToInt(enableZAxis)) );
         }
 
         private void LookAtDirection()
@@ -174,6 +178,9 @@ namespace MovementPackage.Runtime.Scripts
                 + Vector3.forward * _playerMovementData.playerForwardSpeed, Vector3.up);
         }
 
-
+        private float BoolToInt(bool b)
+        {
+            return b ? 1f : 0f;
+        }
     }
 }

@@ -23,18 +23,37 @@ namespace MovementPackage.Editor
 
         public override void OnInspectorGUI()
         {
-            // base.OnInspectorGUI();
-            //DrawDefaultInspector();
             _tabMenus.Clear();
-
             EditorGUILayout.PropertyField(serializedObject.FindProperty("playerMovementInputDataSo"));
+            EditorGUILayout.Separator();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("lookAtMovementDirection"));
+            EditorGUILayout.Separator();
+            GUILayout.BeginVertical();
 
+            GUILayout.Label("<color=yellow>Movement Axis</color>", new GUIStyle(EditorStyles.boldLabel){fontSize = 14, richText = true});
+            EditorGUILayout.Separator();
+
+            AddToggle("Allow X", ref _target.enableXAxis);
+            AddToggle("Allow Y", ref _target.enableXAxis);
+            AddToggle("Allow Z", ref _target.enableXAxis);
+          
+            GUILayout.EndHorizontal();
+
+            EditorGUILayout.Separator();
+            
+            GUILayout.Label("<color=yellow>Behaviours</color>", new GUIStyle(EditorStyles.boldLabel){fontSize = 14, richText = true});
+            EditorGUILayout.Separator();
             DrawToggles();
 
             EditorGUILayout.Separator();
+            
+            DrawMenuWithProperties();
+            
+            serializedObject.ApplyModifiedProperties();
+        }
 
-
+        private void DrawMenuWithProperties()
+        {
             FieldInfo[] fields = _target.GetType().GetFields(
                 BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
@@ -48,9 +67,6 @@ namespace MovementPackage.Editor
                     EditorGUILayout.PropertyField(serializedObject.FindProperty(field.Name));
                 }
             }
-
-
-            serializedObject.ApplyModifiedProperties();
         }
 
         private void DrawToggles()
