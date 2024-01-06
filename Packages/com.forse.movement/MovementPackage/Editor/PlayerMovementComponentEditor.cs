@@ -34,8 +34,8 @@ namespace MovementPackage.Editor
             EditorGUILayout.Separator();
 
             AddToggle("Allow X", ref _target.enableXAxis);
-            AddToggle("Allow Y", ref _target.enableXAxis);
-            AddToggle("Allow Z", ref _target.enableXAxis);
+            AddToggle("Allow Y", ref _target.enableYAxis);
+            AddToggle("Allow Z", ref _target.enableZAxis);
           
             GUILayout.EndHorizontal();
 

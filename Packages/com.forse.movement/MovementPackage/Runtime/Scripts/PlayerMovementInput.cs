@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,6 +7,11 @@ namespace MovementPackage.Runtime.Scripts
     public class PlayerMovementInput : MonoBehaviour
     {
         [SerializeField] private PlayerMovementInputDataSo playerMovementInputDataSo;
+
+        private void Awake()
+        {
+            playerMovementInputDataSo.inputBlocked = false;
+        }
 
         void Update()
         {

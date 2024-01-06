@@ -1,29 +1,28 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts.Parameters
 {
     [Serializable]
     public class HookParameters
     {
-        public bool blockInput;
         public LayerMask hookLayerMask;
-        public HookDropOffEnum continueHookDirection;
-        public float hookJumpInSpeed;
-        public float hookJumpOffSpeed;
-        public float hookJumpOffHeight;
-        public float hookRangeDistance;
         public float detectionAngle;
+        public float hookRangeDistance;
         
-        [FormerlySerializedAs("hookJumpCooldown")] public float hookCooldown = 0.2f;
-        public float hookInStopDistance = 1f;
-    }
+        public bool blockInput;
+        public bool turnOffGravity;
+        
+        public bool windUp;
+        public float windUpTime;
+        
+        [Min(0.001f)]public float hookInTime;
+        public AnimationCurve hookInCurve;
+        [Min(0.1f)]public float hookInStopDistance = 1f;
 
-    public enum HookDropOffEnum
-    {
-        ContinueDirection,
-        PredefinedPositions,
+        public bool continueForce;
+        [Min(0.001f)]public float hookOffTime;
+        public AnimationCurve hookOutCurve;
+        [Min(0f)]public float hookOutDistance;
     }
 }
