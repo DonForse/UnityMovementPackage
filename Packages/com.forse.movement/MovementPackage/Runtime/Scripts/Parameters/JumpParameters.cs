@@ -7,7 +7,7 @@ namespace MovementPackage.Runtime.Scripts.Parameters
     public class JumpParameters
     {
         public float jumpHeight = 4f;
-
+        
         [Header("Feature Toggle")]
         [Tooltip("Jump buffering. " +
                  "If you press and hold the jump button a short time before landing," +
@@ -17,11 +17,14 @@ namespace MovementPackage.Runtime.Scripts.Parameters
         public bool coyoteEnabled;
         public bool holdJumpEnabled;
         public bool jumpCooldownEnabled;
-
-        [Header("Hold Jump")] public float holdJumpGravity = 0.35f;
-        [Header("Coyote")] public float coyoteTime = 0.25f;
-
-        [Header("Jump Cooldown")] [SerializeField]
+        public bool doubleJumpEnabled;
+        [Header("Hold Jump")]
+        public float holdJumpGravity = 0.35f;
+        [Header("Coyote")]
+        public float coyoteTime = 0.25f;
+        [Header("Jump Cooldown")] 
         public float jumpCooldown = 0.1f;
+        [Header("Double Jump")]
+        public float doubleJumpHeight = 4f;
     }
 }

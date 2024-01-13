@@ -8,8 +8,6 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
     public class PlayerJumpProcess : IMovementProcess
     {
         private JumpParameters _jumpParameters;
-       
-
         private bool isOnCoyoteTime;
         private bool cancelCoyote;
 
@@ -22,8 +20,10 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         private CoroutineHelper _coroutineHelper;
         private MovementProcessesEvents _movementProcessesEvents;
 
-        public void Initialize(PlayerMovementData playerMovementData, PlayerMovementInputDataSo playerMovementInputDataSo,
-            JumpParameters jumpParameters, CoroutineHelper coroutineHelper, MovementProcessesEvents movementProcessesEvents)
+        public void Initialize(PlayerMovementData playerMovementData,
+            PlayerMovementInputDataSo playerMovementInputDataSo,
+            JumpParameters jumpParameters, CoroutineHelper coroutineHelper,
+            MovementProcessesEvents movementProcessesEvents)
         {
             _playerMovementData = playerMovementData;
             _playerMovementInputDataSo = playerMovementInputDataSo;
@@ -36,14 +36,33 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         {
             Grounded();
             CoyoteJumpTime();
+            DoubleJump();
             Jump();
             HoldJump();
         }
 
+        private void DoubleJump()
+        {
+            if (!_jumpParameters.doubleJumpEnabled) return;
+
+            if (!_playerMovementInputDataSo.jumpPressed) return;
+
+            if (!_playerMovementData.jumping) return;
+            if (_playerMovementData.doubleJumping) return;
+
+            if (_jumpParameters.jumpCooldownEnabled && jumpCooldownTimer > 0f)
+                return;
+            _playerMovementData.doubleJumping = true;
+            _playerMovementData.gravityMultiplier = 1f;
+            _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_jumpParameters.doubleJumpHeight * Time.fixedDeltaTime);
+            _movementProcessesEvents.DoubleJumped?.Invoke();
+        }
+
         private void JumpBuffering()
         {
-            if (_jumpParameters.jumpBufferingEnabled && (!_playerMovementInputDataSo.jumpPressed && _playerMovementInputDataSo.jumpHold &&
-                                         !lastFrameGrounded))
+            if (_jumpParameters.jumpBufferingEnabled &&
+                (!_playerMovementInputDataSo.jumpPressed && _playerMovementInputDataSo.jumpHold &&
+                 !lastFrameGrounded))
                 _playerMovementInputDataSo.jumpPressed = true;
         }
 
@@ -51,7 +70,8 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
         {
             if (!_jumpParameters.holdJumpEnabled)
                 return;
-            _playerMovementData.gravityMultiplier = _playerMovementInputDataSo.jumpHold ? _jumpParameters.holdJumpGravity : 1f;
+            _playerMovementData.gravityMultiplier =
+                _playerMovementInputDataSo.jumpHold ? _jumpParameters.holdJumpGravity : 1f;
         }
 
         private void Grounded()
@@ -60,6 +80,8 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
             if (_playerMovementData.collidingGround)
             {
+                _playerMovementData.jumping = false;
+                _playerMovementData.doubleJumping = false;
                 cancelCoyote = true;
             }
 
@@ -94,6 +116,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             if (!_playerMovementInputDataSo.jumpPressed)
                 return;
 
+            if (_playerMovementData.jumping) return;
             if (!_playerMovementData.collidingGround && (!_jumpParameters.coyoteEnabled || !isOnCoyoteTime)) return;
 
             if (_jumpParameters.jumpCooldownEnabled && jumpCooldownTimer > 0f)
@@ -101,9 +124,10 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
             _playerMovementData.gravityMultiplier = 1f;
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_jumpParameters.jumpHeight * Time.fixedDeltaTime);
+            _playerMovementData.jumping = true;
             cancelCoyote = true;
             coyoteGroundedPlayer = false;
-            _movementProcessesEvents.Jumped?.Invoke(null);
+            _movementProcessesEvents.Jumped?.Invoke();
         }
 
         private void CoyoteJumpTime()

@@ -17,6 +17,7 @@ namespace MovementPackage.Runtime.Scripts
         protected virtual void OnEnable()
         {
             movementComponent.Events.Jumped.AddListener(SetJump);
+            movementComponent.Events.DoubleJumped.AddListener(SetJump);
             movementComponent.Grabbing += SetGrab;
             movementComponent.Moving += SetSpeed;
             movementComponent.Crouching += SetCrouch;
@@ -25,6 +26,7 @@ namespace MovementPackage.Runtime.Scripts
         private void OnDisable()
         {
             movementComponent.Events.Jumped.RemoveListener(SetJump);
+            movementComponent.Events.DoubleJumped.RemoveListener(SetJump);
             movementComponent.Grabbing -= SetGrab;
             movementComponent.Moving -= SetSpeed;
             movementComponent.Crouching -= SetCrouch;
@@ -36,7 +38,7 @@ namespace MovementPackage.Runtime.Scripts
 
         private void SetGrab(object sender, bool value) => animator.SetBool(Grab, value);
 
-        private void SetJump(Unit _) => animator.SetTrigger(Jump);
+        private void SetJump() => animator.SetTrigger(Jump);
 
         [UsedImplicitly]
         public void TriggerParticleStep() => stepPartycleSystem?.Play();

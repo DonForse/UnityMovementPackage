@@ -1136,9 +1136,11 @@ MonoBehaviour:
     coyoteEnabled: 1
     holdJumpEnabled: 1
     jumpCooldownEnabled: 0
+    doubleJumpEnabled: 1
     holdJumpGravity: 0.35
     coyoteTime: 0.25
     jumpCooldown: 0.1
+    doubleJumpHeight: 5
   crouchParameters:
     movementSpeedMultiplier: 0.5
     changeHeightOnCrouch: 1

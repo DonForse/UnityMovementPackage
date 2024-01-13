@@ -61,11 +61,11 @@ namespace MovementPackage.Runtime.Scripts
 
             AddGravityProcess();
             AddCrouchProcess();
-            AddJumpProcess();
             AddWallJumpProcess();
             AddWalkProcess();
             AddWallGrabProcess();
             AddHookProcess();
+            AddJumpProcess();
 
             void AddWalkProcess()
             {
