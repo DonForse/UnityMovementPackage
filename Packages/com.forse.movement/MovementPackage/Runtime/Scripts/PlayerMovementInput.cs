@@ -25,6 +25,7 @@ namespace MovementPackage.Runtime.Scripts
             playerMovementInputDataSo.verticalPressed = Input.GetAxis("Vertical");
             playerMovementInputDataSo.crouchPressed = Input.GetKey(KeyCode.LeftControl);
             playerMovementInputDataSo.hookPressed =playerMovementInputDataSo.hookPressed|| Input.GetKeyDown(KeyCode.LeftControl);
+            playerMovementInputDataSo.dashPressed = playerMovementInputDataSo.dashPressed || Input.GetKeyDown(KeyCode.LeftShift);
 
         }
     }

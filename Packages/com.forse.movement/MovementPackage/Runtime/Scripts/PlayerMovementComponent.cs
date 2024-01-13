@@ -28,6 +28,7 @@ namespace MovementPackage.Runtime.Scripts
         public bool wallJumpEnabled = false;
         public bool crouchEnabled = false;
         public bool hookEnabled = false;
+        public bool dashEnabled = false;
         public bool wallGrabEnabled = false;
 
         [TabMenu("Walk")] [SerializeField] private WalkParameters walkParameters;
@@ -37,6 +38,7 @@ namespace MovementPackage.Runtime.Scripts
         [TabMenu("Wall Grab")][SerializeField] private WallGrabParameters wallGrabParameters;
         [TabMenu("Wall Jump")][SerializeField] private WallJumpParameters wallJumpParameters;
         [TabMenu("Hook")][SerializeField] private HookParameters hookParameters;
+        [TabMenu("Dash")] [SerializeField] private DashParameters dashParameters;
         private PlayerMovementData _playerMovementData;
 
         private PlayerGravityProcess _playerGravityProcess;
@@ -48,6 +50,7 @@ namespace MovementPackage.Runtime.Scripts
         private PlayerWallGrabProcess _playerWallGrabProcess;
         private PlayerCrouchProcess _playerCrouchProcess;
         private PlayerHookProcess _playerHookProcess;
+        private PlayerDashProcess _playerDashProcess;
         private List<IMovementProcess> _actions;
         public MovementProcessesEvents Events = new MovementProcessesEvents();
 
@@ -65,6 +68,7 @@ namespace MovementPackage.Runtime.Scripts
             AddWalkProcess();
             AddWallGrabProcess();
             AddHookProcess();
+            AddPlayerDashProcess();
             AddJumpProcess();
 
             void AddWalkProcess()
@@ -117,6 +121,14 @@ namespace MovementPackage.Runtime.Scripts
                 _playerHookProcess = new PlayerHookProcess();
                 _playerHookProcess.Initialize(_playerMovementData, playerMovementInputDataSo, hookParameters, this.transform, Events);
                 _actions.Add(_playerHookProcess);
+            }
+
+            void AddPlayerDashProcess()
+            {
+                if (!dashEnabled) return;
+                _playerDashProcess = new PlayerDashProcess();
+                _playerDashProcess.Initialize(_playerMovementData, playerMovementInputDataSo, dashParameters);
+                _actions.Add(_playerDashProcess);
             }
 
             void AddGravityProcess()

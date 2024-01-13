@@ -15,5 +15,6 @@ namespace MovementPackage.Runtime.Scripts
         public bool crouchPressed;
         public bool hookPressed;
         public bool inputBlocked;
+        public bool dashPressed;
     }
 }

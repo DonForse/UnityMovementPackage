@@ -30,25 +30,27 @@ namespace MovementPackage.Editor
             EditorGUILayout.Separator();
             GUILayout.BeginVertical();
 
-            GUILayout.Label("<color=yellow>Movement Axis</color>", new GUIStyle(EditorStyles.boldLabel){fontSize = 14, richText = true});
+            GUILayout.Label("<color=yellow>Movement Axis</color>",
+                new GUIStyle(EditorStyles.boldLabel) { fontSize = 14, richText = true });
             EditorGUILayout.Separator();
 
             AddToggle("Allow X", ref _target.enableXAxis);
             AddToggle("Allow Y", ref _target.enableYAxis);
             AddToggle("Allow Z", ref _target.enableZAxis);
-          
+
             GUILayout.EndHorizontal();
 
             EditorGUILayout.Separator();
-            
-            GUILayout.Label("<color=yellow>Behaviours</color>", new GUIStyle(EditorStyles.boldLabel){fontSize = 14, richText = true});
+
+            GUILayout.Label("<color=yellow>Behaviours</color>",
+                new GUIStyle(EditorStyles.boldLabel) { fontSize = 14, richText = true });
             EditorGUILayout.Separator();
             DrawToggles();
 
             EditorGUILayout.Separator();
-            
+
             DrawMenuWithProperties();
-            
+
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -73,39 +75,23 @@ namespace MovementPackage.Editor
         {
             GUILayout.BeginVertical();
 
-            DrawGravity();
-            DrawWalk();
+            DrawToggle("Gravity", ref _target.gravityEnabled);
+            DrawToggle("Walk", ref _target.walkEnabled);
             DrawJumpSection();
-            DrawCrouch();
-            DrawHook();
+            DrawToggle("Crouch", ref _target.crouchEnabled);
+            DrawToggle("Hook", ref _target.hookEnabled);
+            DrawToggle("Dash", ref _target.dashEnabled);
 
             GUILayout.EndVertical();
         }
 
-        private void DrawHook()
+        private void DrawToggle(string label, ref bool property)
         {
-            AddToggle("Hook", ref _target.hookEnabled);
-            AddHookMenu();
+            AddToggle(label, ref property);
 
-            void AddHookMenu()
-            {
-                if (!_target.hookEnabled) return;
-                _tabMenus.Add("Hook");
-            }
+            if (!property) return;
+            _tabMenus.Add(label);
         }
-
-        private void DrawCrouch()
-        {
-            AddToggle("Crouch", ref _target.crouchEnabled);
-            AddCrouchMenu();
-
-            void AddCrouchMenu()
-            {
-                if (!_target.crouchEnabled) return;
-                _tabMenus.Add("Crouch");
-            }
-        }
-
 
         private void DrawJumpSection()
         {
@@ -126,29 +112,6 @@ namespace MovementPackage.Editor
                 if (_target.wallGrabEnabled)
                     _tabMenus.Add("Wall Grab");
                 EditorGUILayout.EndVertical();
-            }
-        }
-
-        private void DrawGravity()
-        {
-            AddToggle("Gravity", ref _target.gravityEnabled);
-            AddGravityMenu();
-
-            void AddGravityMenu()
-            {
-                if (_target.gravityEnabled) _tabMenus.Add("Gravity");
-            }
-        }
-
-        private void DrawWalk()
-        {
-            AddToggle("Walk", ref _target.walkEnabled);
-            AddWalkMenu();
-
-            void AddWalkMenu()
-            {
-                if (_target.walkEnabled)
-                    _tabMenus.Add("Walk");
             }
         }
 

@@ -1125,6 +1125,7 @@ MonoBehaviour:
   wallJumpEnabled: 1
   crouchEnabled: 0
   hookEnabled: 1
+  dashEnabled: 1
   wallGrabEnabled: 0
   walkParameters:
     movementSpeed: 12
@@ -1219,6 +1220,9 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     hookOutDistance: 2
+  dashParameters:
+    dashTime: 5
+    dashDistance: 5
 --- !u!114 &2137009979
 MonoBehaviour:
   m_ObjectHideFlags: 0
