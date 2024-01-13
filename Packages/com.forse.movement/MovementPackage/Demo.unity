@@ -1125,7 +1125,7 @@ MonoBehaviour:
   wallJumpEnabled: 0
   crouchEnabled: 0
   hookEnabled: 0
-  dashEnabled: 0
+  dashEnabled: 1
   wallGrabEnabled: 0
   walkParameters:
     movementSpeed: 12
@@ -1221,8 +1221,35 @@ MonoBehaviour:
       m_RotationOrder: 4
     hookOutDistance: 2
   dashParameters:
-    dashTime: 5
+    dashTime: 1
     dashDistance: 5
+    dashMovement:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    blockInput: 1
+    enableDashDirectionX: 1
+    enableDashDirectionZ: 1
   PlayerMovementData:
     playerVerticalSpeed: 0
     gravityMultiplier: 0
@@ -1248,6 +1275,7 @@ MonoBehaviour:
     hooking: 0
     jumping: 0
     doubleJumping: 0
+    dashing: 0
 --- !u!114 &2137009979
 MonoBehaviour:
   m_ObjectHideFlags: 0

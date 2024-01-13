@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts.Parameters
 {
@@ -7,5 +9,10 @@ namespace MovementPackage.Runtime.Scripts.Parameters
     {
         public float dashTime;
         public float dashDistance;
+        public AnimationCurve dashMovement;
+        public bool blockInput;
+        public bool enableDashDirectionX;
+        // public bool enableDashDirectionY;
+        public bool enableDashDirectionZ;
     }
 }

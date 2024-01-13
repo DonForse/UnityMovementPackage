@@ -55,7 +55,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.doubleJumping = true;
             _playerMovementData.gravityMultiplier = 1f;
             _playerMovementData.playerVerticalSpeed = Mathf.Sqrt(_jumpParameters.doubleJumpHeight * Time.fixedDeltaTime);
-            _movementProcessesEvents.DoubleJumped?.Invoke();
+            _movementProcessesEvents.DoubleJump?.Invoke();
         }
 
         private void JumpBuffering()
@@ -127,7 +127,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
             _playerMovementData.jumping = true;
             cancelCoyote = true;
             coyoteGroundedPlayer = false;
-            _movementProcessesEvents.Jumped?.Invoke();
+            _movementProcessesEvents.Jump?.Invoke();
         }
 
         private void CoyoteJumpTime()

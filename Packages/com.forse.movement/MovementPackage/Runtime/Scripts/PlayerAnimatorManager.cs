@@ -16,8 +16,8 @@ namespace MovementPackage.Runtime.Scripts
 
         protected virtual void OnEnable()
         {
-            movementComponent.Events.Jumped.AddListener(SetJump);
-            movementComponent.Events.DoubleJumped.AddListener(SetJump);
+            movementComponent.Events.Jump.AddListener(SetJump);
+            movementComponent.Events.DoubleJump.AddListener(SetJump);
             movementComponent.Grabbing += SetGrab;
             movementComponent.Moving += SetSpeed;
             movementComponent.Crouching += SetCrouch;
@@ -25,8 +25,8 @@ namespace MovementPackage.Runtime.Scripts
 
         private void OnDisable()
         {
-            movementComponent.Events.Jumped.RemoveListener(SetJump);
-            movementComponent.Events.DoubleJumped.RemoveListener(SetJump);
+            movementComponent.Events.Jump.RemoveListener(SetJump);
+            movementComponent.Events.DoubleJump.RemoveListener(SetJump);
             movementComponent.Grabbing -= SetGrab;
             movementComponent.Moving -= SetSpeed;
             movementComponent.Crouching -= SetCrouch;

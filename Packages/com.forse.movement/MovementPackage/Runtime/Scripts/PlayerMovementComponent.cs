@@ -128,7 +128,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!dashEnabled) return;
                 _playerDashProcess = new PlayerDashProcess();
-                _playerDashProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, dashParameters);
+                _playerDashProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, dashParameters, this.transform, Events);
                 _actions.Add(_playerDashProcess);
             }
 

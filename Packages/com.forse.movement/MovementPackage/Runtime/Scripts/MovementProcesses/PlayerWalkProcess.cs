@@ -19,6 +19,7 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
 
         public void ProcessFixedUpdate()
         {
+            if (_playerMovementData.dashing) return;
             if (_playerMovementData.wallJumping) return;
             _playerMovementData.playerHorizontalSpeed = _playerMovementInputDataSo.horizontalPressed * (_walkParameters.movementSpeed * Time.fixedDeltaTime) * _playerMovementData.movementSpeedMultiplier;
             _playerMovementData.playerForwardSpeed = _playerMovementInputDataSo.verticalPressed * (_walkParameters.movementSpeed * Time.fixedDeltaTime)* _playerMovementData.movementSpeedMultiplier;

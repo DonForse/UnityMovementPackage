@@ -31,6 +31,7 @@ namespace MovementPackage.Runtime.Scripts
         public bool hooking;
         public bool jumping;
         public bool doubleJumping;
+        public bool dashing;
 
         public bool IsGrabbedToWall()
         {
