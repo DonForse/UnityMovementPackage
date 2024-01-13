@@ -15,6 +15,6 @@ namespace MovementPackage.Runtime.Scripts
         public UnityEvent<GameObject> HookReachPosition = new();
         public UnityEvent<GameObject> HookEnd = new();
         public UnityEvent DashStart = new ();
-        public UnityEvent DashFinish;
+        public UnityEvent DashFinish = new();
     }
 }

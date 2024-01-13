@@ -35,7 +35,6 @@ namespace MovementPackage.Runtime.Scripts.MovementProcesses
                 
                 Vector3 nextPosition = (Vector3.Lerp(_playerInitialPosition, _playerDestination, curveValue) -
                                         _playerTransform.position);
-                Debug.Log(nextPosition);
                 _playerMovementData.playerHorizontalSpeed = nextPosition.x;
                 _playerMovementData.playerVerticalSpeed = nextPosition.y;
                 _playerMovementData.playerForwardSpeed = nextPosition.z;
