@@ -1122,17 +1122,17 @@ MonoBehaviour:
   gravityEnabled: 1
   walkEnabled: 1
   jumpEnabled: 1
-  wallJumpEnabled: 1
+  wallJumpEnabled: 0
   crouchEnabled: 0
-  hookEnabled: 1
-  dashEnabled: 1
+  hookEnabled: 0
+  dashEnabled: 0
   wallGrabEnabled: 0
   walkParameters:
     movementSpeed: 12
   gravityParameters:
     gravityValue: -2.21
   jumpParameters:
-    jumpHeight: 5
+    jumpHeight: 8
     jumpBufferingEnabled: 1
     coyoteEnabled: 1
     holdJumpEnabled: 1
@@ -1141,7 +1141,7 @@ MonoBehaviour:
     holdJumpGravity: 0.35
     coyoteTime: 0.25
     jumpCooldown: 0.1
-    doubleJumpHeight: 5
+    doubleJumpHeight: 6
   crouchParameters:
     movementSpeedMultiplier: 0.5
     changeHeightOnCrouch: 1
@@ -1223,6 +1223,31 @@ MonoBehaviour:
   dashParameters:
     dashTime: 5
     dashDistance: 5
+  PlayerMovementData:
+    playerVerticalSpeed: 0
+    gravityMultiplier: 0
+    collidingGround: 0
+    playerHorizontalSpeed: 0
+    playerForwardSpeed: 0
+    collidingRightWall: 0
+    collidingLeftWall: 0
+    grabbedToRightWall: 0
+    grabbedToLeftWall: 0
+    grabbedToForwardWall: 0
+    grabbedToBackWall: 0
+    closeRightWall: 0
+    closeLeftWall: 0
+    movementSpeedMultiplier: 0
+    collidingForwardWall: 0
+    collidingBackWall: 0
+    closeForwardWall: 0
+    closeBackWall: 0
+    closeGround: 0
+    crouching: 0
+    wallJumping: 0
+    hooking: 0
+    jumping: 0
+    doubleJumping: 0
 --- !u!114 &2137009979
 MonoBehaviour:
   m_ObjectHideFlags: 0

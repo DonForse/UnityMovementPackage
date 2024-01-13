@@ -4,6 +4,7 @@ using MovementPackage.Runtime.Scripts.CustomAttributes;
 using MovementPackage.Runtime.Scripts.MovementProcesses;
 using MovementPackage.Runtime.Scripts.Parameters;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MovementPackage.Runtime.Scripts
 {
@@ -39,7 +40,7 @@ namespace MovementPackage.Runtime.Scripts
         [TabMenu("Wall Jump")][SerializeField] private WallJumpParameters wallJumpParameters;
         [TabMenu("Hook")][SerializeField] private HookParameters hookParameters;
         [TabMenu("Dash")] [SerializeField] private DashParameters dashParameters;
-        private PlayerMovementData _playerMovementData;
+        public PlayerMovementData PlayerMovementData;
 
         private PlayerGravityProcess _playerGravityProcess;
         private PlayerMovementCollision _playerMovementCollision;
@@ -57,7 +58,7 @@ namespace MovementPackage.Runtime.Scripts
         private void OnEnable()
         {
             _actions = new List<IMovementProcess>();
-            _playerMovementData = new PlayerMovementData();
+            PlayerMovementData = new PlayerMovementData();
             _characterController = GetComponent<CharacterController>();
             
             InitializeCollisionComponent();
@@ -75,7 +76,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!walkEnabled) return;
                 _playerWalkProcess = new PlayerWalkProcess();
-                _playerWalkProcess.Initialize(playerMovementInputDataSo, _playerMovementData, walkParameters);
+                _playerWalkProcess.Initialize(playerMovementInputDataSo, PlayerMovementData, walkParameters);
                 _actions.Add(_playerWalkProcess);
             }
 
@@ -84,7 +85,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (!jumpEnabled) return;
                 if (!wallJumpEnabled) return;
                 _playerWallJumpProcess = new PlayerWallJumpProcess();
-                _playerWallJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallJumpParameters);
+                _playerWallJumpProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, wallJumpParameters);
                 _actions.Add(_playerWallJumpProcess);
             }
 
@@ -93,7 +94,7 @@ namespace MovementPackage.Runtime.Scripts
                 if (!jumpEnabled) return;
                 if (!wallGrabEnabled) return;
                 _playerWallGrabProcess = new PlayerWallGrabProcess();
-                _playerWallGrabProcess.Initialize(_playerMovementData, playerMovementInputDataSo, wallGrabParameters);
+                _playerWallGrabProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, wallGrabParameters);
                 _actions.Add(_playerWallGrabProcess);
             }
 
@@ -101,7 +102,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!jumpEnabled) return;
                 _playerJumpProcess = new PlayerJumpProcess();
-                _playerJumpProcess.Initialize(_playerMovementData, playerMovementInputDataSo, jumpParameters,
+                _playerJumpProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, jumpParameters,
                     GetComponent<CoroutineHelper>(), Events);
                 _actions.Add(_playerJumpProcess);
             }
@@ -110,7 +111,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!crouchEnabled) return;
                 _playerCrouchProcess = new PlayerCrouchProcess();
-                _playerCrouchProcess.Initialize(_playerMovementData, playerMovementInputDataSo, _characterController,
+                _playerCrouchProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, _characterController,
                     crouchParameters);
                 _actions.Add(_playerCrouchProcess);
             }
@@ -119,7 +120,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!hookEnabled) return;
                 _playerHookProcess = new PlayerHookProcess();
-                _playerHookProcess.Initialize(_playerMovementData, playerMovementInputDataSo, hookParameters, this.transform, Events);
+                _playerHookProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, hookParameters, this.transform, Events);
                 _actions.Add(_playerHookProcess);
             }
 
@@ -127,7 +128,7 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!dashEnabled) return;
                 _playerDashProcess = new PlayerDashProcess();
-                _playerDashProcess.Initialize(_playerMovementData, playerMovementInputDataSo, dashParameters);
+                _playerDashProcess.Initialize(PlayerMovementData, playerMovementInputDataSo, dashParameters);
                 _actions.Add(_playerDashProcess);
             }
 
@@ -135,14 +136,14 @@ namespace MovementPackage.Runtime.Scripts
             {
                 if (!gravityEnabled) return;
                 _playerGravityProcess = new PlayerGravityProcess();
-                _playerGravityProcess.Initialize(_playerMovementData, gravityParameters);
+                _playerGravityProcess.Initialize(PlayerMovementData, gravityParameters);
                 _actions.Add(_playerGravityProcess);
             }
 
             void InitializeCollisionComponent()
             {
                 _playerMovementCollision = GetComponent<PlayerMovementCollision>();
-                _playerMovementCollision.Initialize(_playerMovementData);
+                _playerMovementCollision.Initialize(PlayerMovementData);
                 _actions.Add(_playerMovementCollision);
             }
         }
@@ -167,27 +168,27 @@ namespace MovementPackage.Runtime.Scripts
 
             if (wallGrabEnabled)
             {
-                Grabbing?.Invoke(this,_playerMovementData.IsGrabbedToWall());
+                Grabbing?.Invoke(this,PlayerMovementData.IsGrabbedToWall());
             }
 
             if (crouchEnabled)
-                Crouching?.Invoke(this,_playerMovementData.crouching);
+                Crouching?.Invoke(this,PlayerMovementData.crouching);
         }
 
         private void ExecuteMovement()
         {
             _characterController.Move(new Vector3(
-                _playerMovementData.playerHorizontalSpeed * BoolToInt(enableXAxis),
-                _playerMovementData.playerVerticalSpeed * BoolToInt(enableYAxis), 
-                _playerMovementData.playerForwardSpeed * BoolToInt(enableZAxis)) );
+                PlayerMovementData.playerHorizontalSpeed * BoolToInt(enableXAxis),
+                PlayerMovementData.playerVerticalSpeed * BoolToInt(enableYAxis), 
+                PlayerMovementData.playerForwardSpeed * BoolToInt(enableZAxis)) );
         }
 
         private void LookAtDirection()
         {
             this.transform.LookAt(
                 this.transform.position +
-                Vector3.right * _playerMovementData.playerHorizontalSpeed
-                + Vector3.forward * _playerMovementData.playerForwardSpeed, Vector3.up);
+                Vector3.right * PlayerMovementData.playerHorizontalSpeed
+                + Vector3.forward * PlayerMovementData.playerForwardSpeed, Vector3.up);
         }
 
         private float BoolToInt(bool b)
