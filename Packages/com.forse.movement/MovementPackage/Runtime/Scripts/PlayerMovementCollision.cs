@@ -102,6 +102,7 @@ namespace MovementPackage.Runtime.Scripts
                 Physics.OverlapSphere(transform.position + bottomOffset, collisionRadius, groundLayer).Any();
             if (!_playerMovementData.collidingGround && groundCollision)
                 _events.Grounded?.Invoke();
+            _playerMovementData.collidingGround = groundCollision;
 
         }
 
