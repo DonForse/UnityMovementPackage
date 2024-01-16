@@ -143,7 +143,7 @@ namespace MovementPackage.Runtime.Scripts
             void InitializeCollisionComponent()
             {
                 _playerMovementCollision = GetComponent<PlayerMovementCollision>();
-                _playerMovementCollision.Initialize(PlayerMovementData);
+                _playerMovementCollision.Initialize(PlayerMovementData, Events);
                 _actions.Add(_playerMovementCollision);
             }
         }
