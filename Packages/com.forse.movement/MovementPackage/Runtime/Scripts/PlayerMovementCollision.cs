@@ -36,10 +36,12 @@ namespace MovementPackage.Runtime.Scripts
         [FormerlySerializedAs("groundOffset")] [SerializeField] private Vector3 groundBottomOffset =  new Vector3(0f, -1.5f, 0);
         private PlayerMovementData _playerMovementData;
         private List<Action> _actions;
+        private MovementProcessesEvents _events;
 
-        public void Initialize(PlayerMovementData playerMovementData)
+        public void Initialize(PlayerMovementData playerMovementData, MovementProcessesEvents events)
         {
             _playerMovementData = playerMovementData;
+            _events = events;
 
             _actions = new List<Action>();
             if (groundDetection)
@@ -96,8 +98,11 @@ namespace MovementPackage.Runtime.Scripts
 
         private void DetectGroundCollision()
         {
-            _playerMovementData.collidingGround =
+            var groundCollision =
                 Physics.OverlapSphere(transform.position + bottomOffset, collisionRadius, groundLayer).Any();
+            if (!_playerMovementData.collidingGround && groundCollision)
+                _events.Grounded?.Invoke();
+
         }
 
         private void DetectCloseGround()

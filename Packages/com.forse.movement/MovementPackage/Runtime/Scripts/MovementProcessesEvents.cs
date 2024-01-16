@@ -16,5 +16,6 @@ namespace MovementPackage.Runtime.Scripts
         public UnityEvent<GameObject> HookEnd = new();
         public UnityEvent DashStart = new ();
         public UnityEvent DashFinish = new();
+        public UnityEvent Grounded = new();
     }
 }
